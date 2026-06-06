@@ -1,0 +1,17 @@
+# --- Material con derechos de autor / de terceros (NO publicar) ---
+refs/
+references.bib
+
+# --- Documentos académicos: incluyen nombres de colaboradores (NO publicar) ---
+PAT-ITESM-MNA.tex
+PAT-ITESM-MNA.md
+PAT-ITESM-MNA.pdf
+PAT-ITESM-MNA-*.docx
+PAT-ITESM-MNA-*.tex
+PAT-ITESM-MNA-*.pdf
+build_docx.py
+
+# --- caches ---
+__pycache__/
+*.pyc
+.DS_Store

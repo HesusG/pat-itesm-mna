@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Historia de la acción tutorial — de Méntor a la educación emocional · PAT · PLN (MNA)</title>
+<meta name="description" content="Una historia ilustrada de la acción tutorial: de Méntor en La Odisea a la institucionalización contemporánea, con una galería de teóricos de la pedagogía y los conceptos clave del acompañamiento estudiantil.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Roboto+Mono:wght@400;500;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   Design tokens — reusados del sitio PAT (papel crema, tinta,
+   bermellón, Fraunces/Newsreader/Roboto Mono, grano, sombras).
+   ============================================================ */
+:root{
+  --paper:#F4F0E6; --paper-raised:#FBF8F0; --ink:#15130E; --ink-soft:#3A372F;
+  --muted:#8A8576; --accent:#C4351C; --accent-2:#1E3A8A; --rule:#15130E; --shadow:#15130E;
+  --ok:#1F8A4C; --warn:#E0A100; --bad:#C4351C;
+  --font-display:"Fraunces",Georgia,serif; --font-body:"Newsreader",Georgia,serif;
+  --font-mono:"Roboto Mono",ui-monospace,Menlo,monospace;
+  --font-pixel:"Press Start 2P",ui-monospace,monospace;
+  --fs-eyebrow:.8125rem; --fs-caption:.875rem; --fs-body:1.125rem;
+  --fs-h4:1.25rem; --fs-h3:1.5625rem; --fs-h2:2.4375rem; --fs-h1:3.8125rem;
+  --fs-hero:clamp(2.6rem,6vw + 1rem,5.5rem);
+  --border-w:2px; --radius:4px; --shadow-offset:6px; --gap:24px; --maxw:1120px;
+  --measure:64ch; --grain-opacity:.04; --t-fast:80ms; --t-rev:600ms;
+  --duo:#15130E;
+  /* pixel system-ui chrome */
+  --win-bar:#15130E; --win-bar-text:#F4F0E6; --win-body:#FBF8F0;
+}
+[data-theme="dark"]{
+  --paper:#161410; --paper-raised:#1E1B15; --ink:#F4F0E6; --ink-soft:#D8D2C2;
+  --muted:#8A8576; --accent:#E8573B; --accent-2:#7FA0E8; --rule:#F4F0E6; --shadow:#000;
+  --ok:#43C97A; --warn:#F4C13B; --bad:#E8573B; --grain-opacity:.06; --duo:#000;
+  --win-bar:#E8573B; --win-bar-text:#161410; --win-body:#1E1B15;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:var(--fs-body); line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* grain overlay (igual que el sitio) */
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:var(--grain-opacity);mix-blend-mode:multiply}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gap)}
+.wrap--narrow{max-width:820px}
+h1,h2,h3,h4{font-family:var(--font-mono);font-weight:700;line-height:1.1;margin:0 0 .4em;letter-spacing:-.02em}
+h1{font-size:var(--fs-h1)} h2{font-size:var(--fs-h2)} h3{font-size:var(--fs-h3)} h4{font-size:var(--fs-h4)}
+.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
+p{max-width:var(--measure)}
+a{color:var(--accent);text-decoration:none;border-bottom:var(--border-w) solid transparent;transition:border-color var(--t-fast)}
+a:hover{border-color:var(--accent)}
+strong{font-weight:600;color:var(--ink)}
+.eyebrow{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--accent);margin:0 0 .5rem;font-weight:500}
+.eyebrow::before{content:"— "}
+.lead{font-size:1.34rem;line-height:1.5;color:var(--ink);max-width:36ch}
+section{padding:calc(var(--gap)*2.4) 0;position:relative}
+.section-note{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin:-.1rem 0 1.4rem;max-width:var(--measure);line-height:1.5}
+.meta-mono{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);letter-spacing:.01em}
+
+/* reveal-on-scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity var(--t-rev) ease,transform var(--t-rev) cubic-bezier(.2,.7,.2,1)}
+.reveal.is-in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.1) blur(6px);border-bottom:var(--border-w) solid var(--ink)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:1rem}
+.nav__brand{font-family:var(--font-mono);font-weight:700;font-size:1rem;letter-spacing:-.02em;border:0;color:var(--ink);display:flex;align-items:center;gap:.55rem}
+.nav__links{display:flex;gap:1.1rem;align-items:center}
+.nav__links a{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--ink);border:0;font-weight:500}
+.nav__links a:hover{color:var(--accent)}
+.toggle{font-family:var(--font-mono);font-size:var(--fs-eyebrow);background:var(--paper);color:var(--ink);
+  border:var(--border-w) solid var(--ink);border-radius:var(--radius);padding:.3rem .6rem;cursor:pointer;letter-spacing:.01em;
+  box-shadow:3px 3px 0 var(--shadow);transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.toggle:hover{color:var(--accent)}
+.toggle:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--shadow)}
+.scrollbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200;transition:width 90ms linear}
+.back-link{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--ink);border:0;font-weight:500;display:inline-flex;align-items:center;gap:.4rem}
+.back-link:hover{color:var(--accent)}
+
+/* hero */
+.hero{padding:calc(var(--gap)*2.6) 0 calc(var(--gap)*2);position:relative;overflow:hidden}
+.hero__grid{display:grid;grid-template-columns:1.3fr .95fr;gap:calc(var(--gap)*2);align-items:center}
+.hero h1{font-family:var(--font-mono);font-size:var(--fs-hero);letter-spacing:-.035em;margin-bottom:.22em;line-height:1.02}
+.hero h1 em{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--accent);letter-spacing:-.01em}
+.hero .meta{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin-top:1.3rem;line-height:1.7}
+.hero .meta b{color:var(--ink);font-weight:500}
+.kicker{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:var(--fs-eyebrow);
+  border:var(--border-w) solid var(--ink);border-radius:999px;padding:.25rem .75rem;background:var(--paper-raised);margin-bottom:1.1rem}
+.kicker .pdot{width:9px;height:9px;background:var(--ok);border-radius:50%}
+
+/* ---------- art figures (B&W / duotono PD) ---------- */
+.art{margin:0}
+.art__frame{border:var(--border-w) solid var(--ink);border-radius:var(--radius);background:var(--paper-raised);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:7px;overflow:hidden}
+.art__img{display:block;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.08) brightness(1.02);mix-blend-mode:multiply;transition:filter .5s ease}
+[data-theme="dark"] .art__img{filter:grayscale(1) contrast(1.05) brightness(.92) invert(.04);mix-blend-mode:screen}
+.art__frame:hover .art__img{filter:grayscale(1) contrast(1.14)}
+.art figcaption{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);margin-top:.5rem;line-height:1.45}
+.art figcaption b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- pixel system-ui window (chrome retro) ---------- */
+.win{border:3px solid var(--ink);background:var(--win-body);border-radius:0;
+  box-shadow:8px 8px 0 var(--shadow);image-rendering:pixelated;margin:0}
+.win__bar{display:flex;align-items:center;gap:.6rem;background:var(--win-bar);color:var(--win-bar-text);
+  padding:.4rem .55rem;border-bottom:3px solid var(--ink)}
+.win__btns{display:flex;gap:5px}
+.win__btn{width:13px;height:13px;background:var(--win-bar-text);border:2px solid var(--ink);display:inline-block;
+  image-rendering:pixelated}
+.win__btn.is-accent{background:var(--accent)}
+.win__title{font-family:var(--font-pixel);font-size:.6rem;letter-spacing:.02em;line-height:1.4;
+  text-transform:none;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win__dots{font-family:var(--font-pixel);font-size:.6rem;opacity:.7;letter-spacing:2px}
+.win__body{padding:1.2rem 1.3rem}
+.win__body .pixrow{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin:.2rem 0;display:flex;gap:.6rem;align-items:flex-start}
+.win__body .pixrow b{color:var(--ink);font-weight:600}
+.win__body .pixrow .yr{font-family:var(--font-pixel);font-size:.55rem;color:var(--accent);min-width:5.2rem;padding-top:.15rem;line-height:1.6}
+.win__statusbar{border-top:3px solid var(--ink);background:var(--paper);padding:.35rem .6rem;
+  font-family:var(--font-pixel);font-size:.5rem;color:var(--muted);display:flex;justify-content:space-between;gap:1rem}
+.win__statusbar .blink{color:var(--accent)}
+
+/* pixel avatar (marcador para personas vivas/recientes sin retrato PD) */
+.pixavatar{width:100%;height:100%;display:block;image-rendering:pixelated;background:var(--paper)}
+.avatar-fallback{display:none}
+.is-broken .avatar-fallback{display:flex}
+.is-broken .art__img{display:none}
+
+/* ---------- timeline ---------- */
+.timeline{position:relative;margin-top:1.5rem}
+.timeline::before{content:"";position:absolute;left:18px;top:6px;bottom:6px;width:3px;background:var(--ink)}
+.tl-item{position:relative;padding:0 0 calc(var(--gap)*1.6) 56px}
+.tl-item:last-child{padding-bottom:0}
+.tl-node{position:absolute;left:8px;top:4px;width:23px;height:23px;background:var(--accent);
+  border:3px solid var(--ink);image-rendering:pixelated}
+.tl-era{font-family:var(--font-pixel);font-size:.58rem;color:var(--accent);letter-spacing:.02em;line-height:1.5;display:inline-block;margin-bottom:.5rem}
+.tl-item h3{font-size:1.4rem;margin:0 0 .35rem}
+.tl-item p{margin:.4rem 0 0}
+.tl-grid{display:grid;grid-template-columns:1fr;gap:1rem;align-items:start}
+.tl-item.has-art .tl-grid{grid-template-columns:1.5fr 1fr}
+.tl-quote{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:1.15rem;
+  color:var(--ink);border-left:4px solid var(--accent);padding-left:.9rem;margin:.9rem 0 0;max-width:46ch;line-height:1.4}
+
+/* ---------- big book theorist cards ---------- */
+.bb-intro{display:grid;grid-template-columns:1.1fr .9fr;gap:calc(var(--gap)*1.6);align-items:center}
+.thinkers{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap);margin-top:1.6rem}
+.thinker{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);overflow:hidden;display:flex;flex-direction:column;
+  transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.thinker:hover{transform:translate(-2px,-2px);box-shadow:calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--shadow)}
+.thinker__media{position:relative;aspect-ratio:1/1;border-bottom:var(--border-w) solid var(--ink);background:var(--ink);overflow:hidden}
+.thinker__media .art__img{height:100%;mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.12) brightness(1.03)}
+[data-theme="dark"] .thinker__media .art__img{mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.05) brightness(.95)}
+.thinker__num{position:absolute;top:8px;left:8px;font-family:var(--font-pixel);font-size:.6rem;color:var(--win-bar-text);
+  background:var(--ink);border:2px solid var(--ink);padding:4px 5px;z-index:2}
+.thinker__years{position:absolute;bottom:0;right:0;font-family:var(--font-mono);font-size:var(--fs-eyebrow);font-weight:500;
+  color:var(--win-bar-text);background:var(--ink);padding:.2rem .5rem;z-index:2}
+.thinker__body{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;flex:1}
+.thinker__name{font-family:var(--font-mono);font-weight:700;font-size:1.4rem;letter-spacing:-.02em;margin:0 0 .1rem}
+.thinker__role{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--ink-soft);font-size:1.02rem;margin:0 0 .7rem;line-height:1.25}
+.bigidea{border:var(--border-w) solid var(--ink);border-left-width:6px;border-left-color:var(--accent);border-radius:var(--radius);
+  background:var(--paper);padding:.55rem .75rem;margin:0 0 .8rem}
+.bigidea .lbl{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--accent);font-weight:500;display:block;margin-bottom:.15rem}
+.bigidea .txt{font-family:var(--font-display);font-weight:600;font-size:1.05rem;line-height:1.25;color:var(--ink)}
+.thinker__body p{font-size:1.02rem;line-height:1.55;margin:0;max-width:none;color:var(--ink)}
+.thinker__tags{margin-top:auto;padding-top:.9rem;display:flex;flex-wrap:wrap;gap:.4rem}
+.tg{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--ink-soft);border:var(--border-w) solid var(--ink);
+  border-radius:999px;padding:.12rem .55rem;background:var(--paper)}
+
+/* ---------- black & white interlude ---------- */
+.bw{background:var(--ink);color:var(--paper)}
+.bw .eyebrow{color:var(--accent)}
+.bw h2,.bw h3,.bw strong,.bw p{color:var(--paper)}
+.bw .section-note{color:#cfc9ba}
+.bw .art__frame{border-color:var(--paper);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--accent)}
+.bw .art__img{mix-blend-mode:screen;filter:grayscale(1) contrast(1.15) brightness(1.05)}
+.bw figcaption{color:#a8a294}
+.bw figcaption b{color:var(--paper)}
+.bw__quote{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(1.6rem,3.4vw,2.6rem);
+  line-height:1.25;max-width:24ch;letter-spacing:-.01em}
+.bw__quote .hot{color:var(--accent)}
+
+/* ---------- modern voices ---------- */
+.voices{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
+.voice{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:1.2rem 1.3rem;display:flex;gap:1.1rem;align-items:flex-start}
+.voice__av{flex:0 0 auto;width:74px;height:74px;border:var(--border-w) solid var(--ink);border-radius:var(--radius);overflow:hidden;background:var(--paper)}
+.voice__av .pixavatar{width:100%;height:100%}
+.voice h4{margin:0 0 .15rem;font-size:1.18rem}
+.voice .vrole{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--ink-soft);font-size:.98rem;display:block;margin-bottom:.5rem}
+.voice p{margin:0;font-size:1rem;line-height:1.5;max-width:none}
+.voice .vyears{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--muted)}
+
+/* ---------- key concepts (7 características) ---------- */
+.concepts{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);margin-top:1.4rem}
+.concept{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:1.1rem 1.2rem}
+.concept__n{font-family:var(--font-pixel);font-size:.7rem;color:var(--accent);display:block;margin-bottom:.6rem}
+.concept h4{margin:0 0 .3rem;font-size:1.12rem}
+.concept p{margin:0;font-size:.98rem;line-height:1.5;max-width:none;color:var(--ink)}
+.chips{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:var(--gap)}
+.chipcard{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:1.1rem 1.3rem}
+.chipcard h4{margin:0 0 .6rem;font-size:1.1rem}
+.chiprow{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:.2rem}
+
+/* ---------- credits ---------- */
+.credits{font-family:var(--font-mono);font-size:.92rem;padding-left:0;list-style:none;margin:0}
+.credits li{margin-bottom:.7rem;line-height:1.5;max-width:none;color:var(--ink-soft);
+  border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent);padding-bottom:.7rem}
+.credits li b{color:var(--ink);font-weight:600}
+.credits .pd{color:var(--ok);font-weight:600}
+.foot{border-top:var(--border-w) solid var(--ink);padding:calc(var(--gap)*1.4) 0;font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted)}
+.foot a{color:var(--ink-soft)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{transition-duration:.001ms !important}
+}
+@media (max-width:900px){
+  .hero__grid,.bb-intro{grid-template-columns:1fr}
+  .tl-item.has-art .tl-grid{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .thinkers,.voices,.chips{grid-template-columns:1fr}
+  .concepts{grid-template-columns:1fr}
+  .nav__links a:not(.toggle):not(.back-link){display:none}
+  :root{--fs-h1:2.6rem;--fs-h2:1.9rem}
+  .lead{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="scrollbar" id="scrollbar" aria-hidden="true"></div>
+
+<nav class="nav"><div class="wrap">
+  <a class="nav__brand" href="#top">
+    <svg width="24" height="16" viewBox="0 0 48 30" aria-hidden="true" style="color:var(--ink)">
+      <path d="M3 15 C 14 3, 34 3, 45 15 C 34 27, 14 27, 3 15 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+      <circle cx="24" cy="15" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="24" cy="15" r="3.2" fill="currentColor"/>
+    </svg>
+    PAT · PLN
+  </a>
+  <div class="nav__links">
+    <a class="back-link" href="index.html">← Inicio</a>
+    <a href="#origenes">Orígenes</a>
+    <a href="#linea">Línea de tiempo</a>
+    <a href="#galeria">Teóricos</a>
+    <a href="#voces">Voces modernas</a>
+    <a href="#conceptos">Conceptos</a>
+    <a href="#creditos">Créditos</a>
+    <button class="toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro u oscuro">Modo</button>
+  </div>
+</div></nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero" id="top"><div class="wrap"><div class="hero__grid">
+  <div class="reveal">
+    <span class="kicker"><span class="pdot"></span> Historia ilustrada de la acción tutorial</span>
+    <h1>De <em>Méntor</em><br>a la mirada<br>que acompaña.</h1>
+    <p class="lead serif">Casi tres mil años de una misma idea: que aprender de verdad pide a alguien al lado. Esta es su historia, sus pensadores y sus conceptos.</p>
+    <p class="meta">
+      Acompaña a <b>«Acompañar con datos»</b>, el tablero del Plan de Acción Tutorial.<br>
+      <b>Maestría en Inteligencia Artificial Aplicada (MNA)</b> · Tecnológico de Monterrey<br>
+      Curso: Temas Selectos de Educación (UPAEP) · Autor: <b>Hesus García Cobos</b>
+    </p>
+  </div>
+
+  <figure class="art reveal d2" style="margin:0">
+    <div class="art__frame">
+      <img class="art__img" style="aspect-ratio:4/5"
+        alt="Melencolia I, grabado de Alberto Durero (1514), una figura alada pensativa rodeada de instrumentos del saber, en blanco y negro"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Melencolia_I_%28Durero%29.jpg/960px-Melencolia_I_%28Durero%29.jpg"
+        loading="lazy" onerror="markBroken(this)">
+      <div class="avatar-fallback" style="aspect-ratio:4/5;align-items:center;justify-content:center"></div>
+    </div>
+    <figcaption><b>Alberto Durero</b> — Melencolia I (1514). El saber paciente, sentado entre sus herramientas. Dominio público · Wikimedia Commons.</figcaption>
+  </figure>
+</div></div></header>
+
+<!-- ===================== ORÍGENES ===================== -->
+<section id="origenes"><div class="wrap">
+  <p class="eyebrow reveal">El origen de una palabra</p>
+  <h2 class="reveal">Méntor no era un sabio: era un encargo</h2>
+  <p class="section-note reveal">Antes de ser una función del sistema escolar, la tutoría fue un personaje, un oficio y una forma de mirar al que aprende. Empecemos por el nombre.</p>
+
+  <div class="grid" style="display:grid;grid-template-columns:1.25fr .9fr;gap:calc(var(--gap)*1.7);align-items:start">
+    <div class="reveal">
+      <p style="margin-top:0">El término <strong>«mentor»</strong> que usamos hoy nace en uno de los primeros textos de la literatura occidental: <em>La Odisea</em> de Homero. Cuando Odiseo parte a la guerra de Troya, confía la educación de su hijo <strong>Telémaco</strong> a un viejo amigo llamado <strong>Méntor</strong> —que en momentos clave es la diosa Atenea disfrazada—. Aconsejar, sostener y acompañar al que crece quedó así ligado, para siempre, a ese nombre propio.</p>
+      <p>En las <em>polis</em> griegas el cuidado del niño pasaba primero a una nodriza y, hacia los siete años, a un <strong>pedagogo</strong> —con frecuencia un esclavo— que lo acompañaba a la escuela y velaba por sus costumbres. Y entre los grandes filósofos la enseñanza era casi un linaje: <strong>Sócrates</strong> formó a <strong>Platón</strong>, Platón a <strong>Aristóteles</strong>, y Aristóteles fue preceptor real de <strong>Alejandro Magno</strong>. Una relación todavía unidireccional —del que sabe al que aprende— pero ya profundamente personal.</p>
+      <p class="tl-quote">«Un personaje llamado Méntor era el educador y consejero de Telémaco, el hijo de Odiseo.»<br><span class="meta-mono" style="font-style:normal">— González-Benito y Vélaz de Medrano (2015)</span></p>
+    </div>
+
+    <figure class="art reveal d2" style="margin:0">
+      <div class="art__frame">
+        <img class="art__img" style="aspect-ratio:3/4"
+          alt="Busto de mármol de Homero, copia romana de un original griego, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Marble_bust_of_Homer._Roman_copy_%281st_century_CE%29_of_an_original_%28460_BCE%29._Altes_Museum%2C_Berlin.jpg/960px-Marble_bust_of_Homer._Roman_copy_%281st_century_CE%29_of_an_original_%28460_BCE%29._Altes_Museum%2C_Berlin.jpg"
+          loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback" style="aspect-ratio:3/4;align-items:center;justify-content:center"></div>
+      </div>
+      <figcaption><b>Homero</b> — busto, copia romana de un original griego (s. V a. C.). En <em>La Odisea</em> aparece Méntor. Dominio público · Wikimedia Commons.</figcaption>
+    </figure>
+  </div>
+</div></section>
+
+<!-- ===================== LÍNEA DE TIEMPO (system-ui window) ===================== -->
+<section id="linea"><div class="wrap">
+  <p class="eyebrow reveal">La idea atraviesa los siglos</p>
+  <h2 class="reveal">Una línea de tiempo de la tutoría</h2>
+  <p class="section-note reveal">De la epopeya homérica a la ley contemporánea. Enmarcamos los hitos del libro en una ventana de sistema retro: el acompañamiento como un programa que nunca dejó de ejecutarse.</p>
+
+  <div class="reveal" style="margin-bottom:calc(var(--gap)*1.6)">
+    <div class="win" role="group" aria-label="Resumen de hitos de la acción tutorial">
+      <div class="win__bar">
+        <span class="win__btns" aria-hidden="true"><span class="win__btn"></span><span class="win__btn"></span><span class="win__btn is-accent"></span></span>
+        <span class="win__title">accion_tutorial.exe — historial de versiones</span>
+        <span class="win__dots" aria-hidden="true">▚▚▚</span>
+      </div>
+      <div class="win__body">
+        <div class="pixrow"><span class="yr">s. VIII a.C.</span><span><b>v0.1 — Méntor.</b> Homero da nombre al consejero de Telémaco en <em>La Odisea</em>.</span></div>
+        <div class="pixrow"><span class="yr">s. V–IV a.C.</span><span><b>v0.2 — El linaje.</b> Sócrates → Platón → Aristóteles → Alejandro: tutorización entre filósofos.</span></div>
+        <div class="pixrow"><span class="yr">Edad Media</span><span><b>v0.3 — El taller.</b> El maestro gremial forma a sus aprendices: tutela como oficio.</span></div>
+        <div class="pixrow"><span class="yr">s. XVI</span><span><b>v0.4 — Precursores.</b> Huarte de San Juan y Luis Vives: enseñar según la naturaleza del alumno.</span></div>
+        <div class="pixrow"><span class="yr">1970</span><span><b>v1.0 — Institucionalización.</b> La Ley General de Educación instaura la tutoría en España.</span></div>
+        <div class="pixrow"><span class="yr">1990 · 2006</span><span><b>v2.0 — Consolidación.</b> LOGSE y LOE: el Plan de Acción Tutorial, parte de la función docente.</span></div>
+      </div>
+      <div class="win__statusbar"><span>Estado: <span class="blink">en ejecución</span></span><span>uptime ≈ 2,800 años</span></div>
+    </div>
+  </div>
+
+  <div class="timeline reveal">
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">Edad Media</span>
+      <div class="tl-grid">
+        <div>
+          <h3>El taller gremial</h3>
+          <p>La tutoría como apoyo al aprendizaje y relación personalizada reaparece con fuerza en los <strong>talleres medievales</strong>. La figura del <strong>maestro</strong> tenía bajo su tutela a uno o varios <strong>aprendices</strong> de los oficios gremiales: se aprendía haciendo, al lado de quien ya sabía. El conocimiento se transmitía cuerpo a cuerpo, en el taller, no en un aula abstracta.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">Siglo XVI · precursores</span>
+      <div class="tl-grid">
+        <div>
+          <h3>Huarte de San Juan y Luis Vives</h3>
+          <p>Los estudios sobre el origen de la orientación en España señalan a <strong>Juan Huarte de San Juan</strong> (s. XVI) como uno de sus precursores: en su <em>Examen de ingenios para las ciencias</em> defendió que cada persona tiene aptitudes distintas y conviene encaminarla hacia aquello para lo que sirve. Conecta con <strong>Luis Vives</strong> (1492–1540), quien sostenía que <strong>la enseñanza debía hacerse de acuerdo con la personalidad y la naturaleza del alumno</strong>: el germen de la tutoría que atiende las características diferenciales de cada quien.</p>
+          <p class="tl-quote">«La enseñanza debía realizarse de acuerdo con la personalidad y naturaleza del alumno.» — sobre Luis Vives</p>
+        </div>
+        <figure class="art" style="margin:0">
+          <div class="art__frame">
+            <img class="art__img" style="aspect-ratio:3/4"
+              alt="Retrato grabado de Juan Luis Vives, humanista valenciano, en blanco y negro"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/LuisVives.jpg/960px-LuisVives.jpg"
+              loading="lazy" onerror="markBroken(this)">
+            <div class="avatar-fallback" style="aspect-ratio:3/4;align-items:center;justify-content:center"></div>
+          </div>
+          <figcaption><b>Juan Luis Vives</b> (1492–1540). Dominio público · Wikimedia Commons.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">1948 · marco internacional</span>
+      <div class="tl-grid">
+        <div>
+          <h3>El derecho a la educación</h3>
+          <p>La <strong>Declaración Universal de los Derechos Humanos</strong> (1948), en su artículo 26, fija como fin de la educación <strong>«el pleno desarrollo de la personalidad humana»</strong>. Dentro de ese marco, la acción tutorial cobra un valor preciso: si la meta no es solo instruir sino formar personas íntegras, alguien tiene que acompañar ese desarrollo. La tutoría deja de ser un detalle pedagógico para volverse una pieza del derecho a aprender.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">1970 · España</span>
+      <div class="tl-grid">
+        <div>
+          <h3>La Ley General de Educación</h3>
+          <p>Con la <strong>Ley General de Educación de 1970</strong> comienza en España la <strong>institucionalización de la tutoría</strong>. La ley introduce la evaluación continua, la educación personalizada y la <strong>orientación y tutoría permanente</strong>, y considera la acción tutorial como <strong>eje central</strong> de la actividad educativa. Por primera vez la figura del tutor aparece también en el Bachillerato y la Universidad, donde cada profesor-tutor atiende a un grupo para ayudarle a superar las dificultades del aprendizaje.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">1990 · LOGSE</span>
+      <div class="tl-grid">
+        <div>
+          <h3>La tutoría, derecho del alumnado</h3>
+          <p>La <strong>LOGSE (1990)</strong> consagra la acción tutorial como elemento de <strong>calidad de la enseñanza</strong> y parte de la función docente, y reconoce el <strong>derecho del alumnado a la tutoría</strong> en lo psicopedagógico y lo profesional. Cada grupo debe contar con un profesor tutor, y la educación ha de atender tanto a la formación personalizada como a la orientación. Las «Cajas Rojas» (1992) definen el carácter personalizado de la educación en dos elementos: <strong>individualización</strong> e <strong>integración</strong>.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item has-art">
+      <span class="tl-node" aria-hidden="true"></span>
+      <span class="tl-era">2006 · LOE</span>
+      <div class="tl-grid">
+        <div>
+          <h3>El Plan de Acción Tutorial</h3>
+          <p>La <strong>LOE (2006)</strong> simplifica el marco normativo y refuerza las tutorías y los departamentos de orientación para una mejor atención a la diversidad y una prevención integral. Identifica el <strong>Plan de Acción Tutorial (PAT)</strong> como uno de los instrumentos del Proyecto Educativo del centro, y recoge entre las funciones del profesorado «la tutoría de los alumnos, la dirección y la orientación de su aprendizaje y el apoyo en su proceso educativo». El acompañamiento, por fin, tiene plan, responsables y evaluación.</p>
+        </div>
+        <figure class="art" style="margin:0">
+          <div class="art__frame">
+            <img class="art__img" style="aspect-ratio:1/1"
+              alt="El Rinoceronte, xilografía de Alberto Durero (1515), una criatura imponente y blindada, en blanco y negro"
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Albrecht_D%C3%BCrer_-_The_Rhinoceros_%28NGA_1964.8.697%29.jpg/960px-Albrecht_D%C3%BCrer_-_The_Rhinoceros_%28NGA_1964.8.697%29.jpg"
+              loading="lazy" onerror="markBroken(this)">
+            <div class="avatar-fallback" style="aspect-ratio:1/1;align-items:center;justify-content:center"></div>
+          </div>
+          <figcaption><b>Alberto Durero</b> — El Rinoceronte (1515). Conocimiento construido de oídas, perfectible con el tiempo. Dominio público · Wikimedia Commons.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+  </div>
+</div></section>
+
+<!-- ===================== B&W INTERLUDE ===================== -->
+<section class="bw" aria-label="El saber que acompaña"><div class="wrap">
+  <div class="grid" style="display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap)*2);align-items:center">
+    <figure class="art reveal" style="margin:0">
+      <div class="art__frame">
+        <img class="art__img" style="aspect-ratio:3/2"
+          alt="San Jerónimo en su estudio, grabado de Alberto Durero (1514): un sabio trabajando en paz en su gabinete, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Saint_Jerome._Engraving_by_A._D%C3%BCrer%2C_1514._Wellcome_V0032309.jpg/960px-Saint_Jerome._Engraving_by_A._D%C3%BCrer%2C_1514._Wellcome_V0032309.jpg"
+          loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback" style="aspect-ratio:3/2;align-items:center;justify-content:center"></div>
+      </div>
+      <figcaption><b>Alberto Durero</b> — San Jerónimo en su estudio (1514). Dominio público · Wikimedia Commons.</figcaption>
+    </figure>
+    <div class="reveal d2">
+      <p class="eyebrow">El gabinete del que aprende</p>
+      <blockquote class="bw__quote">Educar no es solo instruir: es <span class="hot">acompañar</span> a cada persona en su singularidad.</blockquote>
+      <p style="margin-top:1.2rem">El libro de González-Benito y Vélaz de Medrano lo dice sin rodeos: la escuela no puede limitarse a transmitir conocimientos, debe <strong>considerar a cada alumno en su singularidad y complejidad</strong>. Lo que sigue son los pensadores que hicieron posible esa idea.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===================== GALERÍA DE TEÓRICOS (BIG BOOK) ===================== -->
+<section id="galeria"><div class="wrap">
+  <p class="eyebrow reveal">El gran libro de los pedagogos</p>
+  <h2 class="reveal">Nueve teóricos, una idea compartida</h2>
+  <p class="section-note reveal">El libro nombra a estas figuras como pilares del concepto de acción tutorial, «entendido como tarea orientadora que atiende las características diferenciales del alumno». Cada tarjeta: retrato, fechas, su gran idea y cómo conecta con el acompañamiento.</p>
+
+  <div class="thinkers reveal">
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">01</span>
+        <span class="thinker__years">1592–1670</span>
+        <img class="art__img" alt="Retrato grabado de Comenius (Jan Amos Komenský), pedagogo checo, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/5/5b/Comenius.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Comenius</h3>
+        <p class="thinker__role">El padre de la didáctica moderna</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">Enseñar todo a todos, de forma ordenada y gradual.</span></div>
+        <p>En su <em>Didáctica Magna</em> defendió una educación universal que respeta el orden natural del que aprende: de lo simple a lo complejo, de lo cercano a lo lejano. Esa idea de <strong>graduar la enseñanza al ritmo del alumno</strong> es la raíz de la tutoría como acompañamiento del desarrollo, no como mera transmisión.</p>
+        <div class="thinker__tags"><span class="tg">gradualidad</span><span class="tg">educación universal</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">02</span>
+        <span class="thinker__years">1712–1778</span>
+        <img class="art__img" alt="Retrato pintado de Jean-Jacques Rousseau, filósofo ginebrino, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Jean-Jacques_Rousseau_%28painted_portrait%29.jpg/960px-Jean-Jacques_Rousseau_%28painted_portrait%29.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Rousseau</h3>
+        <p class="thinker__role">El que puso al niño en el centro</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">El niño no es un adulto pequeño: tiene su propia naturaleza.</span></div>
+        <p>En <em>Emilio</em> propuso una educación que parte del interés y del momento evolutivo del aprendiz, no de la conveniencia del adulto. El tutor de Rousseau observa, espera y prepara el entorno. La tutoría hereda de él la <strong>atención a las características diferenciales</strong> y el respeto por los tiempos de cada quien.</p>
+        <div class="thinker__tags"><span class="tg">paidocentrismo</span><span class="tg">desarrollo</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">03</span>
+        <span class="thinker__years">1746–1827</span>
+        <img class="art__img" alt="Retrato grabado de Johann Heinrich Pestalozzi, pedagogo suizo, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Johann_Heinrich_Pestalozzi.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Pestalozzi</h3>
+        <p class="thinker__role">El que enseñó con la cabeza, las manos y el corazón</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">Educar a la persona completa: intelecto, destreza y afecto.</span></div>
+        <p>Su lema —cabeza, manos y corazón— anticipa la idea de <strong>educación integral</strong>: no se forma solo el intelecto, también la habilidad y el vínculo emocional. Pestalozzi insistió en el cariño y la relación cercana como condición del aprendizaje, prefigurando el carácter <strong>integral</strong> y afectivo de la acción tutorial.</p>
+        <div class="thinker__tags"><span class="tg">educación integral</span><span class="tg">afecto</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">04</span>
+        <span class="thinker__years">1846–1923</span>
+        <img class="art__img" alt="Retrato fotográfico de Andrés Manjón, sacerdote y pedagogo español, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Andr%C3%A9s_Manj%C3%B3n.jpg/960px-Andr%C3%A9s_Manj%C3%B3n.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Andrés Manjón</h3>
+        <p class="thinker__role">El maestro de las Escuelas del Ave María</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">Educar a los más desfavorecidos, al aire libre y con alegría.</span></div>
+        <p>Fundador de las Escuelas del Ave María en Granada, llevó la educación a los niños pobres con métodos activos, juego y enseñanza al aire libre. Su empeño por <strong>no dejar a nadie fuera</strong> y adaptar la escuela a cada contexto resuena con los rasgos <strong>inclusivo</strong> y <strong>personalizado</strong> de la tutoría actual.</p>
+        <div class="thinker__tags"><span class="tg">inclusión</span><span class="tg">método activo</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">05</span>
+        <span class="thinker__years">1859–1952</span>
+        <img class="art__img" alt="Retrato fotográfico de John Dewey en 1902, filósofo y pedagogo estadounidense, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/9/91/John_Dewey_in_1902.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">John Dewey</h3>
+        <p class="thinker__role">El que hizo de la experiencia el método</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">Se aprende reflexionando sobre la propia experiencia.</span></div>
+        <p>Para Dewey, la escuela es vida, no preparación para la vida, y el docente acompaña la indagación del alumno más que dictar respuestas. Esa idea del profesor como <strong>guía que sostiene un proceso</strong> —y no como autoridad que transmite— es la actitud de fondo del tutor. El acompañamiento es democrático y situado.</p>
+        <div class="thinker__tags"><span class="tg">aprendizaje experiencial</span><span class="tg">guía</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">06</span>
+        <span class="thinker__years">1870–1952</span>
+        <img class="art__img" alt="Retrato fotográfico de Maria Montessori en 1913, médica y pedagoga italiana, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Maria_Montessori1913.jpg/960px-Maria_Montessori1913.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Maria Montessori</h3>
+        <p class="thinker__role">La que diseñó un entorno para la autonomía</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">«Ayúdame a hacerlo por mí mismo.»</span></div>
+        <p>Montessori observó al niño con rigor científico y rediseñó el aula para que cada uno avance a su ritmo con materiales autocorrectivos. El adulto <strong>observa y retira el apoyo justo a tiempo</strong>. Es, casi literalmente, la lógica del <strong>andamiaje</strong> tutorial: ayudar lo necesario para que el otro llegue solo.</p>
+        <div class="thinker__tags"><span class="tg">autonomía</span><span class="tg">observación</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">07</span>
+        <span class="thinker__years">1871–1932</span>
+        <img class="art__img" alt="Retrato fotográfico de Ovide Decroly, médico y pedagogo belga, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Ovide_Decroly_%281871-1932%29.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Ovide Decroly</h3>
+        <p class="thinker__role">El de los centros de interés</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">Aprender desde los intereses y necesidades reales del niño.</span></div>
+        <p>Decroly organizó la enseñanza en torno a «centros de interés» y a la globalización: el niño percibe primero el todo y luego las partes. Partir de lo que importa al estudiante, y de su contexto, es la antesala de una tutoría <strong>personalizada</strong> que ajusta los recursos a la persona concreta y no al revés.</p>
+        <div class="thinker__tags"><span class="tg">centros de interés</span><span class="tg">globalización</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">08</span>
+        <span class="thinker__years">1896–1934</span>
+        <img class="art__img" alt="Retrato fotográfico de Lev Vygotsky, psicólogo soviético, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Lev_Vygotsky_1896-1934.jpg" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Lev Vygotsky</h3>
+        <p class="thinker__role">El que mostró que aprendemos con otros</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">La Zona de Desarrollo Próximo: lo que se puede hacer con ayuda.</span></div>
+        <p>Vygotsky definió la distancia entre lo que el estudiante logra solo y lo que logra con el apoyo de un «otro más capaz». Ahí, en esa zona, ocurre el aprendizaje real. Es el fundamento teórico más directo del acompañamiento: <strong>tutorizar es operar en la ZDP</strong> y retirar el andamiaje conforme el otro avanza.</p>
+        <div class="thinker__tags"><span class="tg">ZDP</span><span class="tg">andamiaje</span><span class="tg">mediación</span></div>
+      </div>
+    </article>
+
+    <article class="thinker">
+      <div class="thinker__media">
+        <span class="thinker__num">09</span>
+        <span class="thinker__years">1896–1980</span>
+        <img class="art__img" alt="Retrato fotográfico de Jean Piaget en Ann Arbor, psicólogo suizo, en blanco y negro"
+          src="https://upload.wikimedia.org/wikipedia/commons/6/67/Jean_Piaget_in_Ann_Arbor.png" loading="lazy" onerror="markBroken(this)">
+        <div class="avatar-fallback"></div>
+      </div>
+      <div class="thinker__body">
+        <h3 class="thinker__name">Jean Piaget</h3>
+        <p class="thinker__role">El que cartografió cómo construimos el conocimiento</p>
+        <div class="bigidea"><span class="lbl">Su gran idea</span><span class="txt">El conocimiento se construye; el error es parte del proceso.</span></div>
+        <p>Piaget describió cómo el sujeto construye esquemas mediante asimilación y acomodación, y cómo el pensamiento sigue etapas de desarrollo. Conocer el momento cognitivo del estudiante —y leer el error como señal, no como fracaso— permite al tutor ajustar la ayuda. Es la base del enfoque <strong>preventivo</strong> y <strong>personalizado</strong>.</p>
+        <div class="thinker__tags"><span class="tg">constructivismo</span><span class="tg">etapas</span></div>
+      </div>
+    </article>
+
+  </div>
+</div></section>
+
+<!-- ===================== VOCES MODERNAS ===================== -->
+<section id="voces"><div class="wrap">
+  <p class="eyebrow reveal">Quienes lo sostienen hoy</p>
+  <h2 class="reveal">Voces modernas del acompañamiento</h2>
+  <p class="section-note reveal">Cuatro autores contemporáneos dan forma a la acción tutorial tal como se entiende ahora. Para quienes viven o fallecieron hace pocas décadas usamos un avatar pixel del sistema, no una foto con derechos.</p>
+
+  <div class="voices reveal">
+
+    <article class="voice">
+      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="bisquerra" width="12" height="12"></canvas></div>
+      <div>
+        <h4>Rafael Bisquerra <span class="vyears">(1949– )</span></h4>
+        <span class="vrole">El que unió orientación, tutoría y emoción</span>
+        <p>Define la <strong>orientación psicopedagógica</strong> como un proceso de ayuda continuo a todas las personas, con carácter preventivo y de desarrollo. Su trabajo sobre <strong>educación emocional</strong> da sustento al rasgo <em>integral</em>: el estudiante también es emoción, motivación y vínculo.</p>
+      </div>
+    </article>
+
+    <article class="voice">
+      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="velaz" width="12" height="12"></canvas></div>
+      <div>
+        <h4>Consuelo Vélaz de Medrano</h4>
+        <span class="vrole">La que sistematizó la acción tutorial escolar</span>
+        <p>Coautora de <em>La acción tutorial en el sistema escolar</em> (UNED), la fuente de esta historia. Describe la tutoría como función docente <strong>planificada, continua y colaborativa</strong> —no como tarea aislada del tutor—, dando soporte directo a los rasgos <em>sistemático</em> y <em>colaborativo</em>.</p>
+      </div>
+    </article>
+
+    <article class="voice">
+      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="tinto" width="12" height="12"></canvas></div>
+      <div>
+        <h4>Vincent Tinto <span class="vyears">(1942– )</span></h4>
+        <span class="vrole">El que explicó por qué los estudiantes se van</span>
+        <p>Su <strong>modelo de integración</strong> sostiene que la permanencia depende de la integración académica y social del estudiante. De ahí la idea que ordena todo el plan: <strong>«acceso sin acompañamiento no es oportunidad».</strong> Fundamenta lo <em>preventivo</em> y lo <em>continuo</em>.</p>
+      </div>
+    </article>
+
+    <article class="voice">
+      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="rogers" width="12" height="12"></canvas></div>
+      <div>
+        <h4>Carl Rogers <span class="vyears">(1902–1987)</span></h4>
+        <span class="vrole">El que puso la relación en el centro</span>
+        <p>Su concepto de <strong>relación de ayuda</strong> —empatía, aceptación incondicional y autenticidad— es la base actitudinal del tutor. Sin vínculo, ninguna técnica funciona. Sostiene los rasgos <em>personalizado</em> e <em>integral</em> del acompañamiento.</p>
+      </div>
+    </article>
+
+  </div>
+  <p class="section-note" style="margin-top:1.2rem">Los avatares pixelados se generan en el navegador: son marcadores estilizados, no retratos. Se usan a propósito para autores vivos o recientes cuyas fotografías no son de dominio público.</p>
+</div></section>
+
+<!-- ===================== CONCEPTOS CLAVE ===================== -->
+<section id="conceptos"><div class="wrap">
+  <p class="eyebrow reveal">El concepto, hoy</p>
+  <h2 class="reveal">Las siete características de la acción tutorial</h2>
+  <p class="section-note reveal">No son rasgos sueltos: juntas distinguen la tutoría —una función pedagógica— de la mera asesoría administrativa. Si falta una, el plan se degrada. (De las notas del curso, Temas Selectos de Educación.)</p>
+
+  <div class="concepts reveal">
+    <div class="concept"><span class="concept__n">01</span><h4>Colaborativa</h4><p>Involucra a todos los agentes: tutor, docentes, familia o entorno laboral, orientación y el propio estudiante. La tutoría es corresponsabilidad, no carga de una sola persona.</p></div>
+    <div class="concept"><span class="concept__n">02</span><h4>Continua</h4><p>Es un hilo que recorre toda la trayectoria —ingreso, permanencia, transiciones y egreso— y no una intervención puntual ante la crisis.</p></div>
+    <div class="concept"><span class="concept__n">03</span><h4>Sistemática</h4><p>Se planifica y documenta en un Plan de Acción Tutorial: objetivos, responsables, calendario, recursos y evaluación. Lo improvisado no deja huella ni se puede mejorar.</p></div>
+    <div class="concept"><span class="concept__n">04</span><h4>Intrínseca</h4><p>Está integrada en el acto de enseñar: cada docente tutoriza al adaptar su explicación, retroalimentar o detectar una duda no dicha. Conecta con la ZDP de Vygotsky.</p></div>
+    <div class="concept"><span class="concept__n">05</span><h4>Integral</h4><p>Atiende a la persona completa: lo cognitivo, lo afectivo-emocional, lo social y lo vocacional. El estudiante no es solo un intelecto.</p></div>
+    <div class="concept"><span class="concept__n">06</span><h4>Preventiva</h4><p>Actúa antes de que el problema se consolide: lee señales tempranas e interviene en la fase de riesgo, no en la del fracaso. Es el corazón del modelo de Tinto.</p></div>
+    <div class="concept"><span class="concept__n">07</span><h4>Personalizada</h4><p>Ajusta ritmo, recursos y metas a la persona concreta. Personalizar no es bajar el nivel: es encontrar la vía por la que cada quien alcanza la meta.</p></div>
+  </div>
+
+  <div class="chips reveal" style="margin-top:calc(var(--gap)*1.4)">
+    <div class="chipcard">
+      <h4>Principios que la fundamentan</h4>
+      <p style="margin:0 0 .7rem;font-size:1rem">El «por qué» de la tutoría. El modelo clásico (Bisquerra, Rodríguez Espinar) parte de tres; la práctica curricular añade otros.</p>
+      <div class="chiprow">
+        <span class="tg">Prevención</span><span class="tg">Desarrollo</span><span class="tg">Intervención social</span>
+        <span class="tg">Contextualización</span><span class="tg">Integración</span><span class="tg">Inclusión</span>
+      </div>
+    </div>
+    <div class="chipcard">
+      <h4>Líneas de trabajo del tutor</h4>
+      <p style="margin:0 0 .7rem;font-size:1rem">Los grandes frentes de la tutoría, en eco de los cuatro pilares de Delors (UNESCO, 1996).</p>
+      <div class="chiprow">
+        <span class="tg">Enseñar a ser persona</span><span class="tg">Enseñar a convivir</span>
+        <span class="tg">Enseñar a pensar</span><span class="tg">Enseñar a aprender</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal" style="margin-top:calc(var(--gap)*1.4)">
+    <div class="win" role="group" aria-label="Ficha de concepto: objetivos del Plan de Acción Tutorial">
+      <div class="win__bar">
+        <span class="win__btns" aria-hidden="true"><span class="win__btn"></span><span class="win__btn"></span><span class="win__btn is-accent"></span></span>
+        <span class="win__title">objetivos_PAT.txt — ficha de concepto</span>
+        <span class="win__dots" aria-hidden="true">▚▚▚</span>
+      </div>
+      <div class="win__body">
+        <div class="pixrow"><span class="yr">A</span><span><b>Madurez personal.</b> Autoconocimiento, autonomía y autorregulación.</span></div>
+        <div class="pixrow"><span class="yr">B</span><span><b>Personalizar.</b> Ajustar ritmo, recursos y estrategias a la diversidad del aula.</span></div>
+        <div class="pixrow"><span class="yr">C</span><span><b>Orientar.</b> Acompañar decisiones académicas, profesionales y vocacionales.</span></div>
+        <div class="pixrow"><span class="yr">D</span><span><b>Prevenir.</b> Detectar e intervenir temprano ante señales de riesgo.</span></div>
+        <div class="pixrow"><span class="yr">E</span><span><b>Interacción.</b> Cuidar la calidad de las relaciones docente–alumno–familia.</span></div>
+        <div class="pixrow"><span class="yr">F</span><span><b>Integración social.</b> Que cada estudiante se sienta parte de la comunidad.</span></div>
+      </div>
+      <div class="win__statusbar"><span>6 objetivos del PAT · todos legítimos</span><span class="blink">prioriza según tu contexto</span></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- ===================== CRÉDITOS ===================== -->
+<section id="creditos"><div class="wrap wrap--narrow">
+  <p class="eyebrow reveal">Procedencia</p>
+  <h2 class="reveal">Créditos e imágenes</h2>
+  <p class="section-note reveal">Todo el arte de personas históricas proviene de Wikimedia Commons y es de dominio público (autores fallecidos hace más de un siglo). Para autores vivos o recientes se usan avatares pixelados generados en el navegador, no fotografías con derechos.</p>
+
+  <p class="serif reveal" style="font-size:1.12rem;font-style:italic;color:var(--ink-soft);max-width:none">Fuentes de contenido: González-Benito, A. y Vélaz de Medrano Ureta, C. (2015). <em>La acción tutorial en el sistema escolar</em>. UNED. · Notas del curso «Temas Selectos de Educación» (UPAEP): características, principios, líneas y objetivos de la acción tutorial.</p>
+
+  <h3 class="reveal" style="font-size:1.2rem;margin-top:1.6rem">Grabados de Alberto Durero (Dürer, 1471–1528)</h3>
+  <ul class="credits reveal">
+    <li><b>Melencolia I</b> (1514), buril. <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
+    <li><b>El Rinoceronte</b> (1515), xilografía. <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
+    <li><b>San Jerónimo en su estudio</b> (1514), buril (copia Wellcome Collection). <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
+  </ul>
+
+  <h3 class="reveal" style="font-size:1.2rem;margin-top:1.4rem">Retratos de teóricos (dominio público)</h3>
+  <ul class="credits reveal">
+    <li><b>Homero</b> — busto, copia romana de original griego del s. V a. C. (Altes Museum, Berlín). <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Juan Luis Vives</b> (1492–1540) — retrato grabado. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Comenius</b> (1592–1670) — retrato grabado de George Glover. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Jean-Jacques Rousseau</b> (1712–1778) — retrato pintado. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Johann Heinrich Pestalozzi</b> (1746–1827) — retrato. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Andrés Manjón</b> (1846–1923) — fotografía histórica. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>John Dewey</b> (1859–1952) — fotografía de 1902. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Maria Montessori</b> (1870–1952) — fotografía de 1913. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Ovide Decroly</b> (1871–1932) — fotografía histórica. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Lev Vygotsky</b> (1896–1934) — fotografía histórica. <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+    <li><b>Jean Piaget</b> (1896–1980) — fotografía (Ann Arbor). <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
+  </ul>
+
+  <h3 class="reveal" style="font-size:1.2rem;margin-top:1.4rem">Sin foto (avatar pixel del sistema)</h3>
+  <ul class="credits reveal">
+    <li><b>Rafael Bisquerra</b>, <b>Consuelo Vélaz de Medrano</b>, <b>Vincent Tinto</b> y <b>Carl Rogers</b> — autores vivos o recientes; se representan con un marcador pixelado generado por código para no usar imágenes con derechos.</li>
+  </ul>
+
+  <p class="reveal" style="margin-top:1.6rem"><a href="index.html">← Volver al tablero del Plan de Acción Tutorial</a></p>
+</div></section>
+
+<footer class="foot"><div class="wrap">
+  PAT · PLN (MNA) — Historia de la acción tutorial · Estética reusada del tablero (papel crema, tinta y bermellón).<br>
+  Arte de dominio público vía Wikimedia Commons: Durero, Homero, Vives, Comenius, Rousseau, Pestalozzi, Manjón, Dewey, Montessori, Decroly, Vygotsky, Piaget.
+</div></footer>
+
+<script>
+"use strict";
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- theme toggle ---------- */
+(function(){
+  var t = document.getElementById('themeToggle');
+  if(!t) return;
+  t.addEventListener('click', function(){
+    var d = document.documentElement;
+    d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+})();
+
+/* ---------- scroll progress bar ---------- */
+(function(){
+  var bar = document.getElementById('scrollbar');
+  if(!bar) return;
+  function upd(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    bar.style.width = p + '%';
+  }
+  window.addEventListener('scroll', upd, {passive:true});
+  window.addEventListener('resize', upd);
+  upd();
+})();
+
+/* ---------- broken-image handler: hide image, show pixel marker ---------- */
+function markBroken(img){
+  var frame = img.closest('.art__frame') || img.closest('.thinker__media') || img.parentNode;
+  if(frame) frame.classList.add('is-broken');
+  img.style.display = 'none';
+  var fb = frame ? frame.querySelector('.avatar-fallback') : null;
+  if(fb){
+    fb.style.display = 'flex';
+    if(!fb.querySelector('canvas')){
+      var c = document.createElement('canvas');
+      c.className = 'pixavatar';
+      c.width = 12; c.height = 12;
+      c.style.width = '70%'; c.style.maxWidth = '180px'; c.style.aspectRatio = '1/1'; c.style.height = 'auto';
+      c.setAttribute('data-seed', (img.getAttribute('alt') || 'mentor').slice(0, 16));
+      fb.appendChild(c);
+      drawAvatar(c);
+    }
+  }
+}
+
+/* ---------- deterministic pixel-art avatar (symmetric "engraving" portrait) ---------- */
+function hashSeed(s){
+  var h = 2166136261 >>> 0;
+  for(var i = 0; i < s.length; i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+  return h >>> 0;
+}
+function drawAvatar(canvas){
+  var ctx = canvas.getContext('2d');
+  if(!ctx) return;
+  var grid = 12;
+  var seed = hashSeed(canvas.getAttribute('data-seed') || 'mentor');
+  function rnd(){ seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0; return seed / 4294967296; }
+  var css = getComputedStyle(document.documentElement);
+  var ink = css.getPropertyValue('--ink').trim() || '#15130E';
+  var paper = css.getPropertyValue('--paper-raised').trim() || '#FBF8F0';
+  var accent = css.getPropertyValue('--accent').trim() || '#C4351C';
+  ctx.clearRect(0, 0, grid, grid);
+  ctx.fillStyle = paper;
+  ctx.fillRect(0, 0, grid, grid);
+  // build a vertically symmetric "head" silhouette
+  for(var y = 0; y < grid; y++){
+    for(var x = 0; x < grid / 2; x++){
+      var border = (x === 0 || y === 0 || y === grid - 1);
+      // head mask: rounded-ish block, leaving margins
+      var inHead = (y >= 2 && y <= grid - 2 && x >= 1);
+      var on;
+      if(border){ on = true; }
+      else if(inHead){ on = rnd() > 0.42; }
+      else { on = false; }
+      if(on){
+        // accent for a couple of "eye" pixels around the middle band
+        ctx.fillStyle = (y === 5 && x >= 2 && x <= 3 && rnd() > 0.5) ? accent : ink;
+        ctx.fillRect(x, y, 1, 1);
+        ctx.fillRect(grid - 1 - x, y, 1, 1);
+      }
+    }
+  }
+}
+(function(){
+  document.querySelectorAll('canvas.pixavatar').forEach(function(c){ drawAvatar(c); });
+  // redraw on theme change so the duotone follows light/dark
+  var mo = new MutationObserver(function(){
+    document.querySelectorAll('canvas.pixavatar').forEach(function(c){ drawAvatar(c); });
+  });
+  mo.observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+})();
+
+/* ---------- reveal-on-scroll ---------- */
+(function(){
+  if(REDUCED || !('IntersectionObserver' in window)){
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-in'); io.unobserve(en.target); }
+    });
+  }, {threshold:.14, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>

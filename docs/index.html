@@ -505,11 +505,13 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   <p class="eyebrow reveal">Cómo revisamos las tareas</p>
   <h2 class="reveal">Rúbrica con semáforo por criterio</h2>
   <p class="section-note reveal">
-    Las tareas de PLN son notebooks de <strong>HuggingFace</strong>: embeddings con <em>sentence-transformers</em>, BERT,
-    RAG con FAISS y fine-tuning con QLoRA/LoRA sobre LLMs (por ejemplo, la actividad de RAG + QLoRA y la de RAG + LoRA
-    sobre las fábulas de Esopo). Cada entrega se revisa contra una <strong>rúbrica por criterios</strong> y cada criterio
-    se marca con semáforo: verde si está correcto, amarillo si hay una observación, y rojo si hay algo a corregir
-    (fuga de datos, evaluar contra el conjunto de entrenamiento o un pipeline roto). Se devuelve el
+    Las tareas de PLN son notebooks de <strong>HuggingFace</strong>. La de mayor peso es la actividad de
+    <strong>RAG + QLoRA</strong> (act5): construir un pipeline de recuperación con <strong>FAISS</strong>,
+    aplicar <em>fine-tuning</em> con <strong>QLoRA</strong> sobre un LLM y comparar la generación antes y después
+    (la act6 lo lleva a un RAG sobre las fábulas de Esopo). Cada entrega se revisa contra una
+    <strong>rúbrica por criterios</strong> y cada criterio se marca con semáforo: verde si está correcto,
+    amarillo si hay una observación, y rojo si hay algo a corregir (correr sin GPU y que truene sin nota,
+    no comparar antes/después, o usar el LLM sin recuperación, que ya no es RAG). Se devuelve el
     <strong>notebook revisado</strong> con comentarios y la calificación, y se evalúa por método, no por proveedor.
   </p>
   <div class="why-row reveal" style="margin:-.4rem 0 1.2rem">
@@ -517,23 +519,18 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   </div>
   <div class="tbl-wrap reveal">
     <table class="tbl">
-      <thead><tr><th>Criterio</th><th>Puntos</th><th>Estado</th></tr></thead>
+      <thead><tr><th>Criterio (act5 · RAG + QLoRA)</th><th>Puntos</th><th>Estado</th></tr></thead>
       <tbody>
-        <tr><td>Cargar e integrar datos</td><td>1 / 1</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Limpieza y preprocesamiento</td><td>10 / 10</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Partición 70/15/15 reproducible</td><td>1 / 1</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Vocabulario solo desde entrenamiento (sin fuga de datos)</td><td>16 / 16</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Comparación de modelos de embeddings</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Diccionario palabra → vector</td><td>15 / 16</td><td><span class="dot warn"></span> Observación</td></tr>
-        <tr><td>Embeddings por comentario (shapes consistentes)</td><td>16 / 16</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Reg. logística + Random Forest (validar sobre/subajuste)</td><td>20 / 20</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td>Mejor modelo evaluado en el conjunto de prueba</td><td>8 / 10</td><td><span class="dot warn"></span> Observación</td></tr>
-        <tr><td>Conclusiones</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
-        <tr><td><strong>Total</strong></td><td><strong>97 / 100</strong></td><td><strong>≈ 14.55 / 15 Canvas</strong></td></tr>
+        <tr><td>Pipeline RAG funciona (índice FAISS, recuperación relevante)</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Configuración QLoRA correcta (cuantización 4-bit, config LoRA, el modelo carga)</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>El entrenamiento corre (la pérdida baja, sin crashes, épocas completas)</td><td>4 / 4</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Comparación de inferencia antes/después del fine-tuning</td><td>3 / 4</td><td><span class="dot warn"></span> Observación</td></tr>
+        <tr><td>Calidad de código y comentarios (legible, contribuciones del equipo)</td><td>2 / 2</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>19 / 20</strong></td><td><strong>Canvas: 19 / 20</strong></td></tr>
       </tbody>
     </table>
   </div>
-  <p class="section-note" style="margin-top:.9rem">Ejemplo real anonimizado (sin nombres ni matrículas): un equipo en la actividad de vectores embebidos, variante HuggingFace con <em>sentence-transformers</em> (bge-base, 768 dimensiones). Escala interna de 100 convertida a la de Canvas.</p>
+  <p class="section-note" style="margin-top:.9rem">Rúbrica real de la actividad de RAG + QLoRA (act5, 20 puntos en Canvas). Los estados son <strong>ilustrativos</strong>: es la actividad de mayor peso y aún no se entrega, así que muestra cómo quedaría una revisión, no la calificación de un equipo real. La act6 (RAG + LoRA sobre fábulas de Esopo) usa una rúbrica equivalente de 15 puntos.</p>
 </div></section>
 
 <!-- ===================== REFERENCIAS ===================== -->
@@ -606,7 +603,7 @@ var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: r
     datos:{t:'¿De dónde salen los datos?',
       b:'Son datos de MUESTRA (ficticios) para ilustrar el método mientras se conecta la analítica real de Canvas/Zoom/ECOA. La base histórica del NPS proviene de la ECOA real.'},
     revision:{t:'¿Cómo se revisa una tarea?',
-      b:'Las tareas son notebooks de HuggingFace. Primero se lee la rúbrica y se corre la solución del profesor; después se revisa cada entrega criterio por criterio y se marca con semáforo: verde (correcto), amarillo (observación) o rojo (a corregir). Se devuelve el notebook revisado con comentarios y la calificación (escala interna de 100, convertida a la de Canvas). Se evalúa por método, no por proveedor: FastText, OpenAI o HuggingFace.'}
+      b:'Las tareas son notebooks de HuggingFace (por ejemplo RAG + QLoRA con FAISS). Primero se lee la rúbrica y se corre la solución del profesor; después se revisa cada entrega criterio por criterio y se marca con semáforo: verde (correcto), amarillo (observación) o rojo (a corregir). Se devuelve el notebook revisado con comentarios y la calificación. Se evalúa por método, no por proveedor.'}
   };
   var back=document.getElementById('modalBack');
   var titleEl=document.getElementById('modalTitle');

@@ -7,7 +7,7 @@
 <meta name="description" content="Plan de Acción Tutorial para la materia de PLN (MNA, Tec de Monterrey): plan por objetivos (OKR), indicadores con learning analytics de Canvas y Zoom, y seguimiento por semáforo.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,600&family=Newsreader:ital@0;1&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    Design tokens — neo-brutalism (warm cream paper, ink, vermilion)
@@ -24,92 +24,179 @@
   --fs-h4:1.25rem; --fs-h3:1.5625rem; --fs-h2:2.4375rem; --fs-h1:3.8125rem;
   --fs-hero:clamp(2.6rem,6vw + 1rem,5.5rem);
   --border-w:2px; --radius:4px; --shadow-offset:6px; --gap:24px; --maxw:1120px;
-  --measure:68ch; --grain-opacity:.04; --t-fast:80ms;
+  --measure:64ch; --grain-opacity:.04; --t-fast:80ms; --t-rev:600ms;
+  --duo:#15130E; /* duotone shadow color for art */
 }
 [data-theme="dark"]{
   --paper:#161410; --paper-raised:#1E1B15; --ink:#F4F0E6; --ink-soft:#D8D2C2;
   --muted:#8A8576; --accent:#E8573B; --accent-2:#7FA0E8; --rule:#F4F0E6; --shadow:#000;
-  --ok:#43C97A; --warn:#F4C13B; --bad:#E8573B; --grain-opacity:.06;
+  --ok:#43C97A; --warn:#F4C13B; --bad:#E8573B; --grain-opacity:.06; --duo:#000;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0; background:var(--paper); color:var(--ink);
-  font-family:var(--font-body); font-size:var(--fs-body); line-height:1.6;
-  -webkit-font-smoothing:antialiased;
+  font-family:var(--font-body); font-size:var(--fs-body); line-height:1.62;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
 }
 /* grain overlay */
 body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   opacity:var(--grain-opacity);mix-blend-mode:multiply}
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gap)}
+.wrap--narrow{max-width:760px}
 h1,h2,h3,h4{font-family:var(--font-mono);font-weight:700;line-height:1.1;margin:0 0 .4em;letter-spacing:-.02em}
 h1{font-size:var(--fs-h1)} h2{font-size:var(--fs-h2)} h3{font-size:var(--fs-h3)} h4{font-size:var(--fs-h4)}
-.serif{font-family:var(--font-display);font-weight:600}
+.serif{font-family:var(--font-display);font-weight:600;letter-spacing:-.01em}
 p{max-width:var(--measure)}
 a{color:var(--accent);text-decoration:none;border-bottom:var(--border-w) solid transparent;transition:border-color var(--t-fast)}
 a:hover{border-color:var(--accent)}
-.eyebrow{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:0 0 .6rem}
-.lead{font-size:1.3rem;line-height:1.5}
-.rule{border:0;border-top:var(--border-w) solid var(--rule);margin:calc(var(--gap)*1.6) 0}
-section{padding:calc(var(--gap)*1.4) 0}
-.section-note{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);margin:-.1rem 0 1.1rem;max-width:var(--measure);line-height:1.45}
-/* nav */
-.nav{position:sticky;top:0;z-index:100;background:var(--paper);border-bottom:var(--border-w) solid var(--ink)}
+strong{font-weight:600;color:var(--ink)}
+/* eyebrows / labels — Title case, NOT uppercase */
+.eyebrow{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--accent);margin:0 0 .5rem;font-weight:500}
+.eyebrow::before{content:"— "}
+.lead{font-size:1.34rem;line-height:1.5;color:var(--ink);max-width:34ch}
+section{padding:calc(var(--gap)*2.4) 0;position:relative}
+.section-note{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin:-.1rem 0 1.4rem;max-width:var(--measure);line-height:1.5}
+.meta-mono{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);letter-spacing:.01em}
+
+/* ---------- reveal-on-scroll ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity var(--t-rev) ease,transform var(--t-rev) cubic-bezier(.2,.7,.2,1)}
+.reveal.is-in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:saturate(1.1) blur(6px);border-bottom:var(--border-w) solid var(--ink)}
 .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:1rem}
-.nav__brand{font-family:var(--font-mono);font-weight:700;font-size:1rem;letter-spacing:-.02em;border:0;color:var(--ink);display:flex;align-items:center;gap:.5rem}
+.nav__brand{font-family:var(--font-mono);font-weight:700;font-size:1rem;letter-spacing:-.02em;border:0;color:var(--ink);display:flex;align-items:center;gap:.55rem}
 .nav__links{display:flex;gap:1.1rem;align-items:center}
-.nav__links a{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.06em;color:var(--ink);border:0}
+.nav__links a{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--ink);border:0;font-weight:500}
 .nav__links a:hover{color:var(--accent)}
-.toggle{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;background:var(--paper);color:var(--ink);
-  border:var(--border-w) solid var(--ink);border-radius:var(--radius);padding:.3rem .55rem;cursor:pointer;letter-spacing:.06em;
+.toggle{font-family:var(--font-mono);font-size:var(--fs-eyebrow);background:var(--paper);color:var(--ink);
+  border:var(--border-w) solid var(--ink);border-radius:var(--radius);padding:.3rem .6rem;cursor:pointer;letter-spacing:.01em;
   box-shadow:3px 3px 0 var(--shadow);transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.toggle:hover{color:var(--accent)}
 .toggle:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--shadow)}
-/* hero */
-.hero{padding:calc(var(--gap)*2.2) 0 calc(var(--gap)*1.4);border-bottom:var(--border-w) solid var(--rule)}
-.hero__grid{display:grid;grid-template-columns:1.4fr .9fr;gap:calc(var(--gap)*2);align-items:center}
-.hero h1{font-family:var(--font-mono);font-size:var(--fs-hero);letter-spacing:-.03em;margin-bottom:.2em}
-.hero .meta{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);margin-top:1rem;line-height:1.7}
-/* engraving "eye" plate (nod to el ojo / learning analytics = la mirada) */
-.plate{border:var(--border-w) solid var(--ink);border-radius:var(--radius);padding:6px;background:var(--paper-raised);
+/* scroll progress */
+.scrollbar{position:fixed;top:0;left:0;height:3px;background:var(--accent);width:0;z-index:200;transition:width 90ms linear}
+
+/* sample data banner */
+.banner{font-family:var(--font-mono);font-size:var(--fs-caption);letter-spacing:.01em;
+  background:var(--accent);color:#FBF8F0;text-align:center;padding:.5rem 1rem}
+.banner button{background:none;border:0;color:#FBF8F0;text-decoration:underline;cursor:pointer;font-family:inherit;font-size:inherit;padding:0;margin-left:.4rem}
+
+/* ---------- hero ---------- */
+.hero{padding:calc(var(--gap)*2.6) 0 calc(var(--gap)*2);position:relative}
+.hero__grid{display:grid;grid-template-columns:1.35fr .95fr;gap:calc(var(--gap)*2);align-items:center}
+.hero h1{font-family:var(--font-mono);font-size:var(--fs-hero);letter-spacing:-.035em;margin-bottom:.22em;line-height:1.02}
+.hero h1 em{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--accent);letter-spacing:-.01em}
+.hero .meta{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin-top:1.3rem;line-height:1.7}
+.hero .meta b{color:var(--ink);font-weight:500}
+.kicker{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-mono);font-size:var(--fs-eyebrow);
+  border:var(--border-w) solid var(--ink);border-radius:999px;padding:.25rem .75rem;background:var(--paper-raised);margin-bottom:1.1rem}
+.kicker .dot{width:9px;height:9px}
+
+/* engraving "eye" plate (la mirada / learning analytics) */
+.plate{border:var(--border-w) solid var(--ink);border-radius:var(--radius);padding:7px;background:var(--paper-raised);
   box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow)}
-.plate__inner{border:1px solid var(--ink);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:var(--paper-raised)}
-.eye{width:100%;height:auto;color:var(--ink)}
-.eye *{stroke:currentColor;fill:none;stroke-width:2}
-.eye .hot{stroke:var(--accent)}
-.plate__cap{font-family:var(--font-mono);font-size:var(--fs-caption);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-top:.5rem;display:block}
-/* cards / grid */
+.plate__inner{border:1px solid var(--ink);aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;background:var(--paper-raised);overflow:hidden}
+.eye{width:88%;height:auto;color:var(--ink)}
+.eye .ln{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.eye .thin{stroke-width:1.1;opacity:.6}
+.eye .hot{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round}
+.eye .iris{fill:var(--ink)}
+.plate__cap{font-family:var(--font-mono);font-size:var(--fs-caption);letter-spacing:.01em;color:var(--muted);margin-top:.55rem;display:block}
+
+/* ---------- art figures (B&W / duotone public-domain paintings) ---------- */
+.art{margin:0}
+.art__frame{border:var(--border-w) solid var(--ink);border-radius:var(--radius);background:var(--paper-raised);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:7px;overflow:hidden}
+.art__img{display:block;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(1) contrast(1.08) brightness(1.02);mix-blend-mode:multiply;transition:filter .5s ease}
+[data-theme="dark"] .art__img{filter:grayscale(1) contrast(1.05) brightness(.92) invert(.04);mix-blend-mode:screen}
+.art__frame:hover .art__img{filter:grayscale(1) contrast(1.14)}
+.art figcaption{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);margin-top:.5rem;line-height:1.45}
+.art figcaption b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- cards / grid ---------- */
 .grid{display:grid;gap:var(--gap)}
 .grid--2{grid-template-columns:repeat(2,1fr)} .grid--3{grid-template-columns:repeat(3,1fr)}
 .card{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
   box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:1.3rem}
 .callout{border:var(--border-w) solid var(--ink);border-left-width:6px;border-left-color:var(--accent);border-radius:var(--radius);
   background:var(--paper-raised);padding:1rem 1.2rem;box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow)}
-.callout .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.08em;color:var(--accent);display:block;margin-bottom:.35rem}
-.pill{display:inline-block;font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.05em;
-  border:var(--border-w) solid var(--ink);border-radius:999px;padding:.1rem .6rem;background:var(--paper)}
-/* OKR block (the visual centerpiece) */
+.callout .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--accent);display:block;margin-bottom:.35rem;font-weight:500}
+.stat{display:flex;flex-direction:column;gap:.15rem}
+.stat__k{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);letter-spacing:.01em}
+.stat__v{font-family:var(--font-mono);font-weight:700;font-size:1.9rem;line-height:1}
+.stat__v.sm{font-size:1.35rem}
+.stat__u{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--muted)}
+
+/* "why" button that opens a decision modal */
+.why-btn{display:inline-flex;align-items:center;gap:.45rem;font-family:var(--font-mono);font-size:var(--fs-eyebrow);
+  background:var(--paper);color:var(--ink);border:var(--border-w) solid var(--ink);border-radius:999px;
+  padding:.32rem .8rem;cursor:pointer;letter-spacing:.01em;box-shadow:3px 3px 0 var(--shadow);
+  transition:transform var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+.why-btn:hover{background:var(--accent);color:#FBF8F0;border-color:var(--ink)}
+.why-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--shadow)}
+.why-btn .q{font-weight:700;color:var(--accent);font-size:1rem;line-height:1}
+.why-btn:hover .q{color:#FBF8F0}
+.why-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.3rem}
+
+/* ---------- scrollytelling: sticky stage ---------- */
+.scrolly{position:relative}
+.scrolly__grid{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap)*2);align-items:start}
+.scrolly__sticky{position:sticky;top:calc(58px + var(--gap));align-self:start}
+.scrolly__steps{display:flex;flex-direction:column;gap:42vh;padding:8vh 0}
+.step{opacity:.32;transition:opacity .4s ease}
+.step.is-active{opacity:1}
+.step h3{font-size:var(--fs-h3);margin-bottom:.4rem}
+.step h3 .num{font-family:var(--font-mono);color:var(--accent);font-size:1rem;display:block;margin-bottom:.3rem;font-weight:500}
+.step p{font-size:1.12rem}
+.stage{border:var(--border-w) solid var(--ink);border-radius:var(--radius);background:var(--paper-raised);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);overflow:hidden}
+.stage__art{position:relative;aspect-ratio:1/1;background:var(--ink)}
+.stage__art .layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .55s ease;
+  filter:grayscale(1) contrast(1.1);mix-blend-mode:luminosity}
+.stage__art .layer.is-on{opacity:1}
+.stage__cap{padding:.7rem 1rem;font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted);border-top:var(--border-w) solid var(--ink);min-height:3.4em}
+.stage__cap b{color:var(--ink-soft);font-weight:500}
+
+/* ---------- high-contrast black & white section ---------- */
+.bw{background:var(--ink);color:var(--paper)}
+.bw .eyebrow{color:var(--accent)}
+.bw h2,.bw h3,.bw strong,.bw p{color:var(--paper)}
+.bw .section-note{color:#cfc9ba}
+.bw .art__frame{border-color:var(--paper);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--accent)}
+.bw .art__img{mix-blend-mode:screen;filter:grayscale(1) contrast(1.15) brightness(1.05)}
+.bw figcaption{color:#a8a294}
+.bw figcaption b{color:var(--paper)}
+.bw__quote{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(1.6rem,3.4vw,2.6rem);
+  line-height:1.25;max-width:22ch;letter-spacing:-.01em}
+.bw__quote .hot{color:var(--accent)}
+
+/* ---------- OKR block (centerpiece) ---------- */
 .okr{border:var(--border-w) solid var(--ink);border-radius:var(--radius);background:var(--paper-raised);
   box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);overflow:hidden}
-.okr__obj{background:var(--ink);color:var(--paper);padding:1.2rem 1.4rem}
-.okr__obj .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.3rem}
-.okr__obj h3{color:var(--paper);font-family:var(--font-display);font-weight:600;font-size:1.6rem;letter-spacing:-.01em;margin:0;line-height:1.2}
+.okr__obj{background:var(--ink);color:var(--paper);padding:1.3rem 1.5rem}
+.okr__obj .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.02em;color:var(--accent);display:block;margin-bottom:.35rem;font-weight:500}
+.okr__obj h3{color:var(--paper);font-family:var(--font-display);font-weight:600;font-size:1.65rem;letter-spacing:-.01em;margin:0;line-height:1.22;max-width:46ch}
 .krs{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
-.kr{padding:1.1rem 1.3rem;border-top:var(--border-w) solid var(--ink)}
+.kr{padding:1.15rem 1.35rem;border-top:var(--border-w) solid var(--ink)}
 .kr:nth-child(odd){border-right:var(--border-w) solid var(--ink)}
 .kr__top{display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.5rem}
-.kr__label{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
-.kr__title{font-size:1.06rem;line-height:1.35;margin:.1rem 0 .7rem;max-width:none}
-.kr__nums{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);display:flex;justify-content:space-between;margin-top:.5rem}
+.kr__label{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--accent);font-weight:500}
+.kr__title{font-size:1.06rem;line-height:1.36;margin:.1rem 0 .7rem;max-width:none;color:var(--ink)}
+.kr__nums{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);display:flex;justify-content:space-between;gap:.5rem;margin-top:.55rem;flex-wrap:wrap}
 /* north-star (NPS) band */
-.north{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:1.4rem;align-items:center;padding:1.2rem 1.4rem;border-top:var(--border-w) solid var(--ink);background:var(--paper)}
-.north .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.1em;color:var(--accent);display:block;margin-bottom:.2rem}
-.north__big{font-family:var(--font-mono);font-weight:700;font-size:3rem;line-height:1}
-.north__meta{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);display:block;margin-top:.3rem}
+.north{display:grid;grid-template-columns:minmax(180px,260px) 1fr;gap:1.4rem;align-items:center;padding:1.3rem 1.5rem;border-top:var(--border-w) solid var(--ink);background:var(--paper)}
+.north .tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.02em;color:var(--accent);display:block;margin-bottom:.25rem;font-weight:500}
+.north__big{font-family:var(--font-mono);font-weight:700;font-size:3.1rem;line-height:1}
+.north__meta{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);display:block;margin-top:.35rem;line-height:1.45}
 @media (max-width:820px){.north{grid-template-columns:1fr}}
 /* progress bar */
 .progress{height:14px;border:var(--border-w) solid var(--ink);border-radius:999px;background:var(--paper);overflow:hidden}
-.progress>span{display:block;height:100%;background:var(--accent)}
+.progress>span{display:block;height:100%;width:0;background:var(--accent);transition:width 1s cubic-bezier(.2,.7,.2,1)}
 .progress.ok>span{background:var(--ok)} .progress.warn>span{background:var(--warn)} .progress.bad>span{background:var(--bad)}
 /* semáforo dot */
 .dot{display:inline-block;width:14px;height:14px;border-radius:50%;border:var(--border-w) solid var(--ink);vertical-align:middle}
@@ -117,129 +204,239 @@ section{padding:calc(var(--gap)*1.4) 0}
 .dot--lg{width:18px;height:18px}
 /* metric cards / dashboard */
 .metric__top{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
-.metric__name{font-family:var(--font-mono);font-size:var(--fs-caption);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft)}
-.metric__val{font-family:var(--font-mono);font-weight:700;font-size:2rem;line-height:1;margin:.5rem 0 .2rem}
-.metric__src{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--muted)}
+.metric__name{font-family:var(--font-mono);font-size:var(--fs-caption);letter-spacing:.01em;color:var(--ink-soft)}
+.metric__val{font-family:var(--font-mono);font-weight:700;font-size:2rem;line-height:1;margin:.5rem 0 .2rem;color:var(--ink)}
+.metric__src{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--muted);line-height:1.4}
 .spark{display:block;width:100%;height:38px;margin:.6rem 0 .2rem}
 .spark path.line{fill:none;stroke:var(--accent);stroke-width:2}
 .spark path.area{fill:var(--accent);opacity:.10;stroke:none}
 .spark circle{fill:var(--accent);stroke:var(--paper-raised);stroke-width:2}
 /* table (semáforo review sample) */
+.tbl-wrap{overflow-x:auto}
 .tbl{width:100%;border-collapse:collapse;border:var(--border-w) solid var(--ink);background:var(--paper-raised);
-  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow)}
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);min-width:560px}
 .tbl th,.tbl td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--ink);font-size:1rem;vertical-align:middle}
-.tbl thead th{font-family:var(--font-mono);font-size:var(--fs-eyebrow);text-transform:uppercase;letter-spacing:.05em;color:var(--accent);border-bottom:var(--border-w) solid var(--ink)}
+.tbl thead th{font-family:var(--font-mono);font-size:var(--fs-eyebrow);letter-spacing:.01em;color:var(--accent);border-bottom:var(--border-w) solid var(--ink);font-weight:500}
 .tbl tbody tr:last-child td{border-bottom:0}
-.tbl td.mono{font-family:var(--font-mono);font-size:var(--fs-caption)}
+.tbl td.mono{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft)}
+.tbl tbody tr.is-bad{background:color-mix(in srgb,var(--bad) 9%,transparent)}
 /* legend */
-.legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:var(--fs-caption);margin-top:.8rem}
+.legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:var(--fs-caption);margin-top:.9rem;color:var(--ink-soft)}
 .legend span{display:inline-flex;align-items:center;gap:.4rem}
-/* sample data banner */
-.banner{font-family:var(--font-mono);font-size:var(--fs-caption);text-transform:uppercase;letter-spacing:.06em;
-  background:var(--accent);color:var(--paper);text-align:center;padding:.5rem 1rem}
 /* references */
-.refs{font-family:var(--font-body);font-size:1rem}
-.refs li{margin-bottom:.7rem;line-height:1.5;max-width:var(--measure)}
-.foot{border-top:var(--border-w) solid var(--ink);padding:var(--gap) 0;font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted)}
+.refs{font-family:var(--font-body);font-size:1rem;padding-left:1.2rem}
+.refs li{margin-bottom:.8rem;line-height:1.5;max-width:var(--measure);color:var(--ink)}
+.foot{border-top:var(--border-w) solid var(--ink);padding:calc(var(--gap)*1.4) 0;font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--muted)}
+.foot a{color:var(--ink-soft)}
+
+/* ---------- modal ---------- */
+.modal-back{position:fixed;inset:0;z-index:500;background:color-mix(in srgb,var(--ink) 62%,transparent);
+  display:none;align-items:center;justify-content:center;padding:var(--gap);opacity:0;transition:opacity .18s ease}
+.modal-back.is-open{display:flex}
+.modal-back.is-show{opacity:1}
+.modal{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:10px 10px 0 var(--shadow);max-width:560px;width:100%;max-height:86vh;overflow:auto;
+  transform:translateY(14px) scale(.98);transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.modal-back.is-show .modal{transform:none}
+.modal__head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1.2rem 1.4rem .6rem}
+.modal__head h3{font-family:var(--font-display);font-weight:600;font-size:1.45rem;letter-spacing:-.01em;margin:0;line-height:1.2;color:var(--ink)}
+.modal__tag{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--accent);display:block;margin-bottom:.3rem;font-weight:500}
+.modal__close{flex:0 0 auto;background:var(--paper);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  width:34px;height:34px;cursor:pointer;font-family:var(--font-mono);font-size:1.1rem;line-height:1;color:var(--ink);
+  box-shadow:2px 2px 0 var(--shadow);transition:transform var(--t-fast),box-shadow var(--t-fast),background var(--t-fast)}
+.modal__close:hover{background:var(--accent);color:#FBF8F0}
+.modal__close:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--shadow)}
+.modal__body{padding:0 1.4rem 1.4rem}
+.modal__body p{font-size:1.08rem;line-height:1.62;color:var(--ink);max-width:none;margin:.4rem 0 0}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{transition-duration:.001ms !important}
+  .step{opacity:1}
+}
+@media (max-width:900px){
+  .scrolly__grid{grid-template-columns:1fr}
+  .scrolly__sticky{position:static;margin-bottom:var(--gap)}
+  .scrolly__steps{gap:var(--gap);padding:0}
+  .step{opacity:1}
+}
 @media (max-width:820px){
   .hero__grid,.grid--2,.grid--3,.krs{grid-template-columns:1fr}
   .kr:nth-child(odd){border-right:0}
   .nav__links a:not(.toggle){display:none}
   :root{--fs-h1:2.6rem;--fs-h2:1.9rem}
+  .lead{max-width:none}
 }
 </style>
 </head>
 <body>
-<div class="banner">Datos de muestra (ficticios) para ilustrar el método — no son mediciones reales todavía</div>
+<div class="scrollbar" id="scrollbar" aria-hidden="true"></div>
+<div class="banner">
+  Datos de muestra (ficticios) para ilustrar el método — aún no son mediciones reales.
+  <button type="button" data-modal="datos">¿De dónde salen los datos?</button>
+</div>
 
 <nav class="nav"><div class="wrap">
   <a class="nav__brand" href="#top">
-    <svg width="22" height="16" viewBox="0 0 44 28" class="eye" aria-hidden="true"><path d="M2 14 C 12 2, 32 2, 42 14 C 32 26, 12 26, 2 14 Z"/><circle cx="22" cy="14" r="6"/><circle class="hot" cx="22" cy="14" r="2.2"/></svg>
+    <svg width="24" height="16" viewBox="0 0 48 30" class="eye" aria-hidden="true">
+      <path class="ln" d="M3 15 C 14 3, 34 3, 45 15 C 34 27, 14 27, 3 15 Z"/>
+      <circle class="ln" cx="24" cy="15" r="7.5"/><circle class="iris" cx="24" cy="15" r="3.2"/>
+    </svg>
     PAT · PLN
   </a>
   <div class="nav__links">
-    <a href="#mna">MNA</a>
-    <a href="#plan">Plan</a>
+    <a href="#mna">La MNA</a>
+    <a href="#plan">El plan</a>
     <a href="#okr">OKR</a>
     <a href="#tablero">Indicadores</a>
     <a href="#semaforo">Semáforo</a>
+    <a href="#tareas">Tareas</a>
     <a href="#refs">Referencias</a>
-    <button class="toggle" id="themeToggle" type="button">Modo</button>
+    <button class="toggle" id="themeToggle" type="button" aria-label="Cambiar tema claro u oscuro">Modo</button>
   </div>
 </div></nav>
 
 <header class="hero" id="top"><div class="wrap"><div class="hero__grid">
-  <div>
-    <p class="eyebrow">Plan de Acción Tutorial · Materia de PLN</p>
-    <h1>Acompañar con<br>datos, no con<br>suposiciones.</h1>
+  <div class="reveal">
+    <span class="kicker"><span class="dot ok"></span> Plan de Acción Tutorial · Materia de PLN</span>
+    <h1>Acompañar con datos,<br>no con <em>suposiciones</em>.</h1>
     <p class="lead serif">Un plan medible para que ningún estudiante de Procesamiento de Lenguaje Natural abandone por fricción técnica.</p>
     <p class="meta">
-      Maestría en Inteligencia Artificial Aplicada (MNA) · Tecnológico de Monterrey<br>
-      Autor: Hesus García Cobos — docente de cátedra<br>
-      Curso: Temas Selectos de Educación (UPAEP) · Profesora: Alejandra Alpuche Vélez
+      <b>Maestría en Inteligencia Artificial Aplicada (MNA)</b> · Tecnológico de Monterrey<br>
+      Autor: <b>Hesus García Cobos</b> — docente de cátedra<br>
+      Curso: Temas Selectos de Educación (UPAEP) · Profesora: <b>Alejandra Alpuche Vélez</b>
     </p>
   </div>
-  <figure class="plate" style="margin:0">
+  <figure class="plate reveal d2" style="margin:0">
     <div class="plate__inner">
-      <svg class="eye" viewBox="0 0 220 150" width="100%" aria-label="Ojo: la mirada del learning analytics">
-        <path d="M10 75 C 55 15, 165 15, 210 75 C 165 135, 55 135, 10 75 Z"/>
-        <circle cx="110" cy="75" r="34"/>
-        <circle class="hot" cx="110" cy="75" r="13"/>
-        <path class="hot" d="M110 41 V 20 M110 130 V 109 M76 75 H 55 M165 75 H 144"/>
-        <path d="M40 60 Q 50 52 60 60 M160 60 Q 170 52 180 60"/>
+      <svg class="eye" viewBox="0 0 240 168" aria-label="Grabado de un ojo: la mirada del learning analytics">
+        <!-- upper + lower lids -->
+        <path class="ln" d="M16 84 C 70 22, 170 22, 224 84 C 170 146, 70 146, 16 84 Z"/>
+        <!-- iris -->
+        <circle class="ln" cx="120" cy="84" r="36"/>
+        <!-- pupil -->
+        <circle class="iris" cx="120" cy="84" r="13"/>
+        <!-- catch-light -->
+        <circle cx="111" cy="76" r="4" fill="var(--paper-raised)" stroke="none"/>
+        <!-- iris radial striations (engraving) -->
+        <path class="thin ln" d="M120 56 V 48 M120 112 V 120 M92 84 H 84 M148 84 H 156 M100 64 L 95 59 M140 64 L 145 59 M100 104 L 95 109 M140 104 L 145 109"/>
+        <!-- vermilion sight lines (analytics crosshair) -->
+        <path class="hot" d="M120 30 V 12 M120 156 V 138 M50 84 H 32 M190 84 H 208"/>
+        <!-- brow + lash hatching -->
+        <path class="thin ln" d="M44 60 Q 60 48 78 56 M162 56 Q 180 48 196 60"/>
+        <path class="thin ln" d="M30 96 l -7 7 M52 122 l -5 8 M188 122 l 5 8 M210 96 l 7 7"/>
       </svg>
     </div>
-    <span class="plate__cap">El ojo del learning analytics: ver para acompañar a tiempo</span>
+    <span class="plate__cap">El ojo del <i>learning analytics</i>: ver, para acompañar a tiempo.</span>
   </figure>
 </div></div></header>
 
-<!-- ===================== MNA ===================== -->
-<section id="mna"><div class="wrap">
-  <p class="eyebrow">Contexto · el programa</p>
-  <h2>Sobre la MNA</h2>
-  <p class="section-note">De dónde nace este plan: el programa donde se imparte la materia de PLN.</p>
-  <div class="grid grid--2" style="align-items:start">
-    <div>
-      <p style="margin-top:0">La <strong>Maestría en Inteligencia Artificial Aplicada</strong> (Tecnológico de Monterrey, Escuela de Ingeniería y Ciencias) es <strong>100&nbsp;% en línea</strong> y forma a profesionistas para diseñar soluciones de IA que transformen procesos, negocios e industrias.</p>
-      <p>Está dirigida a quienes ya tienen <strong>bases de programación</strong> y buscan una formación técnica y estratégica (analítica avanzada, Industria 4.0/5.0 e IA ética). Por esa carga técnica y su modalidad en línea, el <strong>acompañamiento tutorial</strong> es clave para que nadie se quede atrás por fricción técnica.</p>
+<!-- ===================== SCROLLYTELLING: LA HISTORIA ===================== -->
+<section class="scrolly" id="historia" aria-label="La historia del plan"><div class="wrap">
+  <p class="eyebrow reveal">La historia, en tres cuadros</p>
+  <h2 class="reveal">Tres pinturas, una idea</h2>
+  <p class="section-note reveal">Antes de las cifras, la metáfora. Desplázate: la imagen de la derecha cambia con cada idea.</p>
+
+  <div class="scrolly__grid">
+    <div class="scrolly__sticky">
+      <figure class="stage">
+        <div class="stage__art" id="stageArt">
+          <img class="layer is-on" id="layer0" alt="La gran ola de Kanagawa, de Katsushika Hokusai, en blanco y negro"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/960px-Tsunami_by_hokusai_19th_century.jpg" loading="lazy">
+          <img class="layer" id="layer1" alt="Trigal con cuervos, de Vincent van Gogh, en blanco y negro"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg/960px-Vincent_van_Gogh_-_Wheatfield_with_crows_-_Google_Art_Project.jpg" loading="lazy">
+          <img class="layer" id="layer2" alt="La joven de la perla, de Johannes Vermeer, en blanco y negro"
+               src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg/960px-Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg" loading="lazy">
+        </div>
+        <figcaption class="stage__cap" id="stageCap"><b>Hokusai</b>, La gran ola de Kanagawa (c. 1831). Dominio público vía Wikimedia Commons.</figcaption>
+      </figure>
     </div>
-    <div class="grid grid--2">
-      <div class="card"><div class="metric__name">Modalidad</div><div class="metric__val" style="font-size:1.5rem">En línea</div></div>
-      <div class="card"><div class="metric__name">Periodo</div><div class="metric__val" style="font-size:1.5rem">Trimestral</div></div>
-      <div class="card"><div class="metric__name">Duración</div><div class="metric__val">6</div><div class="metric__src">trimestres</div></div>
-      <div class="card"><div class="metric__name">Materias</div><div class="metric__val">15</div><div class="metric__src">en total</div></div>
+
+    <div class="scrolly__steps" id="steps">
+      <div class="step is-active" data-layer="0" data-cap="0">
+        <h3><span class="num">Cuadro 1 · la ola</span>El abandono llega como una ola.</h3>
+        <p>En un posgrado técnico y 100&nbsp;% en línea, la fricción se acumula en silencio: una entrega que se atora, una duda sin respuesta, una sesión perdida. Cuando se vuelve visible, ya es una ola. Este plan existe para verla formarse <strong>antes</strong> de que rompa.</p>
+      </div>
+      <div class="step" data-layer="1" data-cap="1">
+        <h3><span class="num">Cuadro 2 · el campo</span>Cada estudiante recorre un camino.</h3>
+        <p>El trigal de Van&nbsp;Gogh tiene un sendero que se bifurca y cuervos que cruzan el cielo: señales. El acompañamiento tutorial es leer esas señales —Canvas, Zoom, ECOA— y caminar al lado del estudiante, no detrás del escritorio.</p>
+      </div>
+      <div class="step" data-layer="2" data-cap="2">
+        <h3><span class="num">Cuadro 3 · la mirada</span>Observar es cuidar.</h3>
+        <p>La joven de Vermeer nos sostiene la mirada. Eso es el <em>learning analytics</em>: una mirada atenta y respetuosa sobre la actividad de aprendizaje, para apoyar a tiempo (Friesen, 2013). Ver no es vigilar; es no dejar a nadie atrás.</p>
+      </div>
     </div>
   </div>
 </div></section>
 
-<hr class="rule">
+<!-- ===================== MNA ===================== -->
+<section id="mna"><div class="wrap">
+  <p class="eyebrow reveal">Contexto · el programa</p>
+  <h2 class="reveal">Sobre la MNA</h2>
+  <p class="section-note reveal">De dónde nace este plan: el programa donde se imparte la materia de PLN.</p>
+  <div class="grid grid--2" style="align-items:start">
+    <div class="reveal">
+      <p style="margin-top:0">La <strong>Maestría en Inteligencia Artificial Aplicada</strong> (Tecnológico de Monterrey, Escuela de Ingeniería y Ciencias) es <strong>100&nbsp;% en línea</strong> y forma a profesionistas para diseñar soluciones de IA que transformen procesos, negocios e industrias.</p>
+      <p>Está dirigida a quienes ya tienen <strong>bases de programación</strong> y buscan una formación técnica y estratégica (analítica avanzada, Industria 4.0/5.0 e IA ética). Por esa carga técnica y su modalidad en línea, el <strong>acompañamiento tutorial</strong> es clave para que nadie se quede atrás por fricción técnica.</p>
+      <div class="why-row">
+        <button class="why-btn" type="button" data-modal="familias"><span class="q">?</span> ¿Y las «familias» del modelo escolar?</button>
+      </div>
+    </div>
+    <div class="grid grid--2 reveal d2">
+      <div class="card"><div class="stat"><span class="stat__k">Modalidad</span><span class="stat__v sm">En línea</span></div></div>
+      <div class="card"><div class="stat"><span class="stat__k">Periodo</span><span class="stat__v sm">Trimestral</span></div></div>
+      <div class="card"><div class="stat"><span class="stat__k">Duración</span><span class="stat__v">6</span><span class="stat__u">trimestres</span></div></div>
+      <div class="card"><div class="stat"><span class="stat__k">Materias</span><span class="stat__v">15</span><span class="stat__u">en total</span></div></div>
+    </div>
+  </div>
+</div></section>
 
 <!-- ===================== PLAN ===================== -->
 <section id="plan"><div class="wrap">
-  <p class="eyebrow">Nuestro plan</p>
-  <h2>¿Qué es este plan?</h2>
-  <p class="section-note">Definición breve, anclada en la fuente del marco tutorial.</p>
+  <p class="eyebrow reveal">Nuestro plan</p>
+  <h2 class="reveal">¿Qué es este plan?</h2>
+  <p class="section-note reveal">Definición breve, anclada en la fuente del marco tutorial.</p>
   <div class="grid grid--2">
-    <div class="card">
+    <div class="card reveal">
       <p style="margin-top:0">Un <strong>Plan de Acción Tutorial (PAT)</strong> es el instrumento que <strong>planifica la acción tutorial</strong>: concreta objetivos, responsables, recursos y procedimientos de evaluación, en lugar de dejar el acompañamiento al azar (González-Benito y Vélaz de Medrano, 2015).</p>
       <p>Aquí lo acotamos a la materia de <strong>PLN</strong> y lo volvemos <strong>medible</strong> con OKR e indicadores tomados de la plataforma.</p>
     </div>
-    <div class="callout">
+    <div class="callout reveal d2">
       <span class="tag">¿Por qué OKR y no un cronograma?</span>
-      <p style="margin:.2rem 0 0">Un cronograma dice <em>qué haremos y cuándo</em>; un plan por <strong>OKR</strong> dice <em>qué queremos lograr y cómo sabremos si lo logramos</em>. <strong>OKR</strong> significa <strong>Objetivo</strong> (una meta clara e inspiradora) más <strong>Resultados Clave</strong> (3 a 4 medidas que prueban el avance). Lo elegimos porque conecta cada acción con un resultado verificable y se revisa de forma continua.</p>
+      <p style="margin:.2rem 0 .9rem">Un cronograma dice <em>qué haremos y cuándo</em>; un plan por <strong>OKR</strong> dice <em>qué queremos lograr y cómo sabremos si lo logramos</em>. <strong>OKR</strong> es un <strong>Objetivo</strong> (meta clara e inspiradora) más <strong>Resultados Clave</strong> (3–4 medidas que prueban el avance).</p>
+      <button class="why-btn" type="button" data-modal="okr"><span class="q">?</span> Ver la decisión completa</button>
     </div>
   </div>
 </div></section>
 
-<hr class="rule">
+<!-- ===================== B&W HIGH-CONTRAST INTERLUDE ===================== -->
+<section class="bw" aria-label="De la métrica a la mirada"><div class="wrap">
+  <div class="grid grid--2" style="align-items:center">
+    <figure class="art reveal">
+      <div class="art__frame">
+        <img class="art__img" alt="La gran ola de Kanagawa, de Katsushika Hokusai, en blanco y negro"
+             style="aspect-ratio:3/2"
+             src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tsunami_by_hokusai_19th_century.jpg/1280px-Tsunami_by_hokusai_19th_century.jpg"
+             loading="lazy">
+      </div>
+      <figcaption><b>Katsushika Hokusai</b> — La gran ola de Kanagawa (c. 1831). Dominio público · Wikimedia Commons.</figcaption>
+    </figure>
+    <div class="reveal d2">
+      <p class="eyebrow">El umbral</p>
+      <blockquote class="bw__quote">Medir no es <span class="hot">vigilar</span>. Es ver la ola a tiempo para que nadie se ahogue en silencio.</blockquote>
+      <p style="margin-top:1.2rem">Lo que sigue convierte esa idea en números: una <strong>métrica norte</strong>, tres <strong>resultados clave</strong> y un <strong>tablero</strong> que se enciende como un semáforo.</p>
+    </div>
+  </div>
+</div></section>
 
 <!-- ===================== OKR ===================== -->
 <section id="okr"><div class="wrap">
-  <p class="eyebrow">Plan por objetivos</p>
-  <h2>OKR del trimestre</h2>
-  <p class="section-note">La métrica norte es el <strong>NPS</strong> (¿recomendarías la materia?). Debajo, tres resultados clave que lo impulsan. Barras y miniaturas con datos de muestra; la base histórica del NPS viene de la ECOA.</p>
+  <p class="eyebrow reveal">Plan por objetivos</p>
+  <h2 class="reveal">OKR del trimestre</h2>
+  <p class="section-note reveal">La métrica norte es el <strong>NPS</strong> (¿recomendarías la materia?). Debajo, tres resultados clave que lo impulsan. Las barras y miniaturas usan datos de muestra; la base histórica del NPS viene de la ECOA.</p>
 
-  <div class="okr">
+  <div class="okr reveal">
     <div class="okr__obj">
       <span class="tag">Objetivo · 1 trimestre · materia de PLN</span>
       <h3>Que el acompañamiento sea tan bueno que los estudiantes de PLN recomienden la materia, sin abandonar por fricción técnica.</h3>
@@ -255,24 +452,25 @@ section{padding:calc(var(--gap)*1.4) 0}
         <div class="progress warn" id="npsBar"><span></span></div>
         <div id="npsSpark"></div>
         <div class="metric__src">NPS = % promotores (9–10) menos % detractores (0–6), de −100 a +100. Calculado desde la distribución 0–10 de la ECOA.</div>
+        <div class="why-row" style="margin-top:.9rem">
+          <button class="why-btn" type="button" data-modal="nps"><span class="q">?</span> ¿Por qué el NPS es la métrica norte?</button>
+        </div>
       </div>
     </div>
     <div class="krs" id="krs"><!-- KR cards injected by JS --></div>
   </div>
 </div></section>
 
-<hr class="rule">
-
 <!-- ===================== TABLERO ===================== -->
 <section id="tablero"><div class="wrap">
-  <p class="eyebrow">Indicadores · learning analytics</p>
-  <h2>Tablero de seguimiento</h2>
-  <p class="section-note">
-    El learning analytics analiza la actividad en línea de los estudiantes para informar decisiones y apoyar el aprendizaje (Friesen, 2013).
+  <p class="eyebrow reveal">Indicadores · learning analytics</p>
+  <h2 class="reveal">Tablero de seguimiento</h2>
+  <p class="section-note reveal">
+    El <em>learning analytics</em> analiza la actividad en línea de los estudiantes para informar decisiones y apoyar el aprendizaje (Friesen, 2013).
     En <strong>Canvas</strong> y <strong>Zoom</strong> ya existen métricas que alimentan este tablero. Cada tarjeta muestra la tendencia (miniatura) y el estado en semáforo.
     La <strong>ECOA</strong> se responde en escala 0–10 y reporta promedio (PROM) y desviación (DESV) por pregunta, en cinco dimensiones (dominio, reto, ambiente, acompañamiento y experiencia) más la recomendación.
   </p>
-  <div class="grid grid--3" id="metrics"><!-- metric cards injected by JS --></div>
+  <div class="grid grid--3 reveal" id="metrics"><!-- metric cards injected by JS --></div>
   <div class="legend">
     <span><span class="dot ok"></span> Verde: en meta</span>
     <span><span class="dot warn"></span> Amarillo: atención</span>
@@ -280,41 +478,96 @@ section{padding:calc(var(--gap)*1.4) 0}
   </div>
 </div></section>
 
-<hr class="rule">
-
 <!-- ===================== SEMÁFORO ===================== -->
 <section id="semaforo"><div class="wrap">
-  <p class="eyebrow">Cómo revisamos</p>
-  <h2>Revisión por semáforo</h2>
-  <p class="section-note">
+  <p class="eyebrow reveal">Cómo revisamos</p>
+  <h2 class="reveal">Revisión por semáforo</h2>
+  <p class="section-note reveal">
     Cada quince días clasificamos a cada estudiante en verde, amarillo o rojo combinando señales de Canvas y Zoom
     (tiempo en plataforma, entregas, calificación y asistencia). El rojo dispara una intervención del tutor.
-    Inspirado en sistemas de alerta temprana tipo semáforo en el LMS (Friesen, 2013). <strong>Muestra ilustrativa:</strong>
+    Inspirado en sistemas de alerta temprana en el LMS (Friesen, 2013). Muestra ilustrativa:
   </p>
-  <table class="tbl">
-    <thead><tr><th>Estudiante</th><th>Tiempo en plataforma</th><th>Entregas</th><th>Calificación</th><th>Asistencia (Zoom)</th><th>Estado</th></tr></thead>
-    <tbody id="roster"><!-- rows injected by JS --></tbody>
-  </table>
-  <p class="section-note" style="margin-top:.8rem">Nombres y cifras ficticios. La regla del semáforo y las fuentes de dato son reales y reproducibles en Canvas/Zoom.</p>
+  <div class="why-row reveal" style="margin:-.4rem 0 1.2rem">
+    <button class="why-btn" type="button" data-modal="semaforo"><span class="q">?</span> ¿Por qué un semáforo (verde / amarillo / rojo)?</button>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table class="tbl">
+      <thead><tr><th>Estudiante</th><th>Tiempo en plataforma</th><th>Entregas</th><th>Calificación</th><th>Asistencia (Zoom)</th><th>Estado</th></tr></thead>
+      <tbody id="roster"><!-- rows injected by JS --></tbody>
+    </table>
+  </div>
+  <p class="section-note" style="margin-top:.9rem">Nombres y cifras ficticios. La regla del semáforo y las fuentes de dato son reales y reproducibles en Canvas/Zoom.</p>
 </div></section>
 
-<hr class="rule">
+<!-- ===================== REVISIÓN DE TAREAS ===================== -->
+<section id="tareas"><div class="wrap">
+  <p class="eyebrow reveal">Cómo revisamos las tareas</p>
+  <h2 class="reveal">Rúbrica con semáforo por criterio</h2>
+  <p class="section-note reveal">
+    Las tareas de PLN son notebooks de <strong>HuggingFace</strong>: embeddings con <em>sentence-transformers</em>, BERT,
+    RAG con FAISS y fine-tuning con QLoRA/LoRA sobre LLMs (por ejemplo, la actividad de RAG + QLoRA y la de RAG + LoRA
+    sobre las fábulas de Esopo). Cada entrega se revisa contra una <strong>rúbrica por criterios</strong> y cada criterio
+    se marca con semáforo: verde si está correcto, amarillo si hay una observación, y rojo si hay algo a corregir
+    (fuga de datos, evaluar contra el conjunto de entrenamiento o un pipeline roto). Se devuelve el
+    <strong>notebook revisado</strong> con comentarios y la calificación, y se evalúa por método, no por proveedor.
+  </p>
+  <div class="why-row reveal" style="margin:-.4rem 0 1.2rem">
+    <button class="why-btn" type="button" data-modal="revision"><span class="q">?</span> ¿Cómo se ve una revisión?</button>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table class="tbl">
+      <thead><tr><th>Criterio</th><th>Puntos</th><th>Estado</th></tr></thead>
+      <tbody>
+        <tr><td>Cargar e integrar datos</td><td>1 / 1</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Limpieza y preprocesamiento</td><td>10 / 10</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Partición 70/15/15 reproducible</td><td>1 / 1</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Vocabulario solo desde entrenamiento (sin fuga de datos)</td><td>16 / 16</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Comparación de modelos de embeddings</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Diccionario palabra → vector</td><td>15 / 16</td><td><span class="dot warn"></span> Observación</td></tr>
+        <tr><td>Embeddings por comentario (shapes consistentes)</td><td>16 / 16</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Reg. logística + Random Forest (validar sobre/subajuste)</td><td>20 / 20</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td>Mejor modelo evaluado en el conjunto de prueba</td><td>8 / 10</td><td><span class="dot warn"></span> Observación</td></tr>
+        <tr><td>Conclusiones</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+        <tr><td><strong>Total</strong></td><td><strong>97 / 100</strong></td><td><strong>≈ 14.55 / 15 Canvas</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="section-note" style="margin-top:.9rem">Ejemplo real anonimizado (sin nombres ni matrículas): un equipo en la actividad de vectores embebidos, variante HuggingFace con <em>sentence-transformers</em> (bge-base, 768 dimensiones). Escala interna de 100 convertida a la de Canvas.</p>
+</div></section>
 
 <!-- ===================== REFERENCIAS ===================== -->
-<section id="refs"><div class="wrap">
-  <p class="eyebrow">APA 7</p>
-  <h2>Referencias</h2>
-  <ul class="refs">
+<section id="refs"><div class="wrap wrap--narrow">
+  <p class="eyebrow reveal">APA 7</p>
+  <h2 class="reveal">Referencias</h2>
+  <ul class="refs reveal">
     <li>Friesen, N. (2013). Learning analytics: Readiness and rewards. <em>Canadian Journal of Learning and Technology, 39</em>(4). <a href="https://files.eric.ed.gov/fulltext/EJ1029328.pdf">https://files.eric.ed.gov/fulltext/EJ1029328.pdf</a></li>
     <li>González-Benito, A., &amp; Vélaz de Medrano Ureta, C. (2015). <em>La acción tutorial en el sistema escolar</em>. UNED – Universidad Nacional de Educación a Distancia.</li>
   </ul>
 </div></section>
 
 <footer class="foot"><div class="wrap">
-  PAT · PLN (MNA) — Tablero OKR · Datos de muestra · Hecho con estética neobrutalista (adaptado de ai-big-ideas).
+  PAT · PLN (MNA) — Tablero OKR · Datos de muestra · Estética neobrutalista (adaptada de ai-big-ideas).<br>
+  Arte de dominio público vía Wikimedia Commons: Hokusai, Van Gogh, Vermeer.
 </div></footer>
 
+<!-- ===================== MODAL (single, reused) ===================== -->
+<div class="modal-back" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalBody">
+  <div class="modal" id="modal">
+    <div class="modal__head">
+      <div>
+        <span class="modal__tag">Decisión del autor</span>
+        <h3 id="modalTitle"></h3>
+      </div>
+      <button class="modal__close" id="modalClose" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <div class="modal__body" id="modalBody"></div>
+  </div>
+</div>
+
 <script>
+"use strict";
+var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 /* ---------- theme toggle ---------- */
 (function(){
   var t=document.getElementById('themeToggle');
@@ -322,6 +575,80 @@ section{padding:calc(var(--gap)*1.4) 0}
     var d=document.documentElement;
     d.setAttribute('data-theme', d.getAttribute('data-theme')==='dark'?'light':'dark');
   });
+})();
+
+/* ---------- scroll progress bar ---------- */
+(function(){
+  var bar=document.getElementById('scrollbar');
+  function upd(){
+    var h=document.documentElement;
+    var max=h.scrollHeight-h.clientHeight;
+    var p=max>0?(h.scrollTop/max)*100:0;
+    bar.style.width=p+'%';
+  }
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  upd();
+})();
+
+/* ---------- decision modals (accessible) ---------- */
+(function(){
+  var MODALS={
+    okr:{t:'¿Por qué OKR y no un cronograma?',
+      b:'Un cronograma semana-a-semana se sentía inventado y poco creíble. OKR conecta cada acción con un resultado medible y se revisa de forma continua, en vez de ser una lista de buenas intenciones.'},
+    nps:{t:'¿Por qué el NPS es la métrica norte?',
+      b:'Lo que más importa es que los estudiantes recomienden la experiencia. El NPS sale de la pregunta de recomendación de la ECOA (escala 0–10) y resume en un número si el acompañamiento está funcionando.'},
+    semaforo:{t:'¿Por qué semáforo (verde/amarillo/rojo)?',
+      b:'Es un sistema de alerta temprana (inspirado en learning analytics tipo Course Signals): combina señales de Canvas y Zoom para detectar a tiempo a quien necesita apoyo; el rojo dispara la intervención del tutor.'},
+    familias:{t:'¿Y las «familias» del modelo escolar?',
+      b:'El marco clásico del PAT incluye a las familias, pero al ser un posgrado para adultos no participan familias: el entorno laboral del estudiante es el interlocutor externo equivalente.'},
+    datos:{t:'¿De dónde salen los datos?',
+      b:'Son datos de MUESTRA (ficticios) para ilustrar el método mientras se conecta la analítica real de Canvas/Zoom/ECOA. La base histórica del NPS proviene de la ECOA real.'},
+    revision:{t:'¿Cómo se revisa una tarea?',
+      b:'Las tareas son notebooks de HuggingFace. Primero se lee la rúbrica y se corre la solución del profesor; después se revisa cada entrega criterio por criterio y se marca con semáforo: verde (correcto), amarillo (observación) o rojo (a corregir). Se devuelve el notebook revisado con comentarios y la calificación (escala interna de 100, convertida a la de Canvas). Se evalúa por método, no por proveedor: FastText, OpenAI o HuggingFace.'}
+  };
+  var back=document.getElementById('modalBack');
+  var titleEl=document.getElementById('modalTitle');
+  var bodyEl=document.getElementById('modalBody');
+  var closeBtn=document.getElementById('modalClose');
+  var lastFocus=null;
+  var showTimer=null;
+
+  function trap(e){
+    if(e.key==='Tab'){
+      var f=back.querySelectorAll('button, a[href]');
+      if(!f.length) return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    } else if(e.key==='Escape'){ close(); }
+  }
+  function open(key){
+    var m=MODALS[key]; if(!m) return;
+    lastFocus=document.activeElement;
+    titleEl.textContent=m.t;
+    bodyEl.innerHTML='<p>'+m.b+'</p>';
+    back.classList.add('is-open');
+    clearTimeout(showTimer);
+    showTimer=setTimeout(function(){ back.classList.add('is-show'); }, 10);
+    document.body.style.overflow='hidden';
+    document.addEventListener('keydown',trap);
+    closeBtn.focus();
+  }
+  function close(){
+    back.classList.remove('is-show');
+    document.removeEventListener('keydown',trap);
+    document.body.style.overflow='';
+    var done=function(){ back.classList.remove('is-open'); };
+    if(REDUCED){ done(); } else { setTimeout(done,180); }
+    if(lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  document.addEventListener('click',function(e){
+    var trigger=e.target.closest('[data-modal]');
+    if(trigger){ e.preventDefault(); open(trigger.getAttribute('data-modal')); return; }
+  });
+  closeBtn.addEventListener('click',close);
+  back.addEventListener('click',function(e){ if(e.target===back) close(); });
 })();
 
 /* ---------- sparkline generator (inline SVG) ---------- */
@@ -332,7 +659,7 @@ function spark(values){
   var line=pts.map(function(pt,i){return (i?'L':'M')+pt[0].toFixed(1)+' '+pt[1].toFixed(1);}).join(' ');
   var area=line+' L'+pts[pts.length-1][0].toFixed(1)+' '+(h-p)+' L'+pts[0][0].toFixed(1)+' '+(h-p)+' Z';
   var last=pts[pts.length-1];
-  return '<svg class="spark" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none">'+
+  return '<svg class="spark" viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none" aria-hidden="true">'+
          '<path class="area" d="'+area+'"/><path class="line" d="'+line+'"/>'+
          '<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="2.6"/></svg>';
 }
@@ -354,7 +681,7 @@ document.getElementById('krs').innerHTML=KRS.map(function(kr){
   return '<div class="kr">'+
     '<div class="kr__top"><span class="kr__label">'+kr.label+'</span><span class="dot dot--lg '+kr.status+'"></span></div>'+
     '<p class="kr__title">'+kr.title+'</p>'+
-    '<div class="progress '+kr.status+'"><span style="width:'+pct(kr)+'%"></span></div>'+
+    '<div class="progress '+kr.status+'"><span data-w="'+pct(kr)+'"></span></div>'+
     '<div class="kr__nums"><span>Inicio: '+kr.start+kr.unit+'</span><span>Hoy: <strong>'+kr.now+kr.unit+'</strong></span><span>Meta: '+kr.goal+kr.unit+'</span></div>'+
     spark(kr.trend)+
     '<div class="metric__src">'+kr.src+'</div>'+
@@ -366,7 +693,7 @@ document.getElementById('krs').innerHTML=KRS.map(function(kr){
   var base=58, now=70, goal=80;
   document.getElementById('npsVal').textContent='+'+now;
   var p=Math.max(0,Math.min(100,Math.round((now-base)/((goal-base)||1)*100)));
-  document.querySelector('#npsBar>span').style.width=p+'%';
+  document.querySelector('#npsBar>span').setAttribute('data-w',p);
   document.getElementById('npsSpark').innerHTML=spark([58,60,63,66,68,70]);
 })();
 
@@ -402,9 +729,56 @@ var ROSTER=[
 ];
 var LABEL={ok:'Verde',warn:'Amarillo',bad:'Rojo'};
 document.getElementById('roster').innerHTML=ROSTER.map(function(r){
-  return '<tr><td>'+r.n+'</td><td class="mono">'+r.t+'</td><td class="mono">'+r.e+'</td><td class="mono">'+r.c+'</td><td class="mono">'+r.a+'</td>'+
+  return '<tr'+(r.s==='bad'?' class="is-bad"':'')+'><td>'+r.n+'</td><td class="mono">'+r.t+'</td><td class="mono">'+r.e+'</td><td class="mono">'+r.c+'</td><td class="mono">'+r.a+'</td>'+
     '<td><span class="dot '+r.s+'"></span> '+LABEL[r.s]+'</td></tr>';
 }).join('');
+
+/* ---------- reveal-on-scroll + animated bars ---------- */
+(function(){
+  function fillBars(root){
+    var bars=(root||document).querySelectorAll('.progress>span[data-w]');
+    bars.forEach(function(s){ s.style.width=s.getAttribute('data-w')+'%'; });
+  }
+  if(REDUCED || !('IntersectionObserver' in window)){
+    document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-in'); });
+    fillBars();
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('is-in'); fillBars(en.target); io.unobserve(en.target); }
+    });
+  },{threshold:.16, rootMargin:'0px 0px -8% 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+})();
+
+/* ---------- scrollytelling stage (sticky art swaps per step) ---------- */
+(function(){
+  var steps=Array.prototype.slice.call(document.querySelectorAll('#steps .step'));
+  if(!steps.length) return;
+  var layers=[document.getElementById('layer0'),document.getElementById('layer1'),document.getElementById('layer2')];
+  var cap=document.getElementById('stageCap');
+  var CAPS=[
+    '<b>Hokusai</b>, La gran ola de Kanagawa (c. 1831). Dominio público vía Wikimedia Commons.',
+    '<b>Van Gogh</b>, Trigal con cuervos (1890). Dominio público vía Wikimedia Commons.',
+    '<b>Vermeer</b>, La joven de la perla (c. 1665). Dominio público vía Wikimedia Commons.'
+  ];
+  function activate(i){
+    steps.forEach(function(s,k){ s.classList.toggle('is-active',k===i); });
+    layers.forEach(function(l,k){ if(l) l.classList.toggle('is-on',k===i); });
+    cap.innerHTML=CAPS[i]||CAPS[0];
+  }
+  if(REDUCED || !('IntersectionObserver' in window)){
+    activate(0);
+    return;
+  }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ activate(steps.indexOf(en.target)); }
+    });
+  },{threshold:.55});
+  steps.forEach(function(s){ io.observe(s); });
+})();
 </script>
 </body>
 </html>

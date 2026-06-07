@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cómo se ve una revisión · PAT · PLN (MNA)</title>
+<meta name="description" content="Ejemplo anonimizado de cómo reviso una entrega de código (notebook de HuggingFace): rúbrica con semáforo por criterio y comentarios dentro del cuaderno.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Newsreader:ital@0;1&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F0E6;--paper-raised:#FBF8F0;--ink:#15130E;--ink-soft:#3A372F;--muted:#8A8576;
+  --accent:#C4351C;--ok:#1F8A4C;--warn:#E0A100;--bad:#C4351C;
+  --font-display:"Fraunces",Georgia,serif;--font-body:"Newsreader",Georgia,serif;--font-mono:"Roboto Mono",ui-monospace,Menlo,monospace;
+  --bw:2px;--rad:4px;--sh:6px;--gap:24px;--maxw:880px;
+}
+[data-theme="dark"]{--paper:#161410;--paper-raised:#1E1B15;--ink:#F4F0E6;--ink-soft:#D8D2C2;--accent:#E8573B;--ok:#43C97A;--warn:#F4C13B;--bad:#E8573B}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:1.06rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gap)}
+h1,h2,h3{font-family:var(--font-mono);font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:0 0 .4em}
+h1{font-size:clamp(2rem,5vw,2.8rem)} h2{font-size:1.5rem;margin-top:0}
+a{color:var(--accent);text-decoration:none;border-bottom:2px solid transparent}
+a:hover{border-color:var(--accent)}
+.eyebrow{font-family:var(--font-mono);font-size:.8125rem;color:var(--accent);margin:0 0 .5rem}
+.note{font-family:var(--font-mono);font-size:.875rem;color:var(--muted);line-height:1.5}
+.top{border-bottom:var(--bw) solid var(--ink);padding:.7rem 0}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;font-family:var(--font-mono);font-size:.8125rem}
+header{padding:calc(var(--gap)*2) 0 var(--gap);border-bottom:var(--bw) solid var(--ink)}
+section{padding:calc(var(--gap)*1.6) 0}
+.dot{display:inline-block;width:13px;height:13px;border-radius:50%;border:var(--bw) solid var(--ink);vertical-align:middle;margin-right:.3rem}
+.dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}
+.tbl{width:100%;border-collapse:collapse;border:var(--bw) solid var(--ink);background:var(--paper-raised);box-shadow:var(--sh) var(--sh) 0 var(--ink)}
+.tbl th,.tbl td{text-align:left;padding:.6rem .8rem;border-bottom:1px solid var(--ink);font-size:1rem}
+.tbl thead th{font-family:var(--font-mono);font-size:.8125rem;color:var(--accent);border-bottom:var(--bw) solid var(--ink)}
+.tbl tbody tr:last-child td{border-bottom:0}
+.steps{list-style:none;padding:0;counter-reset:s}
+.steps li{position:relative;padding:.4rem 0 .4rem 2.2rem;border-bottom:1px solid var(--ink)}
+.steps li:last-child{border-bottom:0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:.45rem;width:1.5rem;height:1.5rem;display:grid;place-items:center;font-family:var(--font-mono);font-weight:700;font-size:.85rem;color:var(--paper);background:var(--ink);border-radius:var(--rad)}
+.cell{border:var(--bw) solid var(--ink);border-radius:var(--rad);background:var(--paper-raised);box-shadow:var(--sh) var(--sh) 0 var(--ink);margin:var(--gap) 0;overflow:hidden}
+.cell__code{font-family:var(--font-mono);font-size:.86rem;line-height:1.55;background:var(--ink);color:var(--paper);padding:.9rem 1.1rem;white-space:pre-wrap;margin:0;overflow-x:auto}
+.fb{padding:.85rem 1.1rem;border-top:var(--bw) solid var(--ink);border-left:6px solid var(--muted)}
+.fb.ok{border-left-color:var(--ok)} .fb.warn{border-left-color:var(--warn)} .fb.bad{border-left-color:var(--bad)}
+.fb__tag{font-family:var(--font-mono);font-size:.8125rem;font-weight:700;display:block;margin-bottom:.25rem}
+.fb.ok .fb__tag{color:var(--ok)} .fb.warn .fb__tag{color:var(--warn)} .fb.bad .fb__tag{color:var(--bad)}
+.fb p{margin:0;font-size:1rem;line-height:1.5}
+.legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-family:var(--font-mono);font-size:.875rem;margin-top:.8rem}
+footer{border-top:var(--bw) solid var(--ink);padding:var(--gap) 0;font-family:var(--font-mono);font-size:.8125rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap"><span>Plan de Acción Tutorial · PLN (MNA)</span><a href="index.html">Volver al plan</a></div></div>
+
+<header><div class="wrap">
+  <p class="eyebrow">Metodología del docente</p>
+  <h1>Cómo se ve una revisión</h1>
+  <p>Ejemplo <strong>anonimizado</strong> de una entrega de código revisada. Las tareas de PLN son notebooks de HuggingFace; la de mayor peso es la de <strong>RAG + QLoRA</strong>. Así reviso cada entrega: con una rúbrica por criterios, un semáforo y comentarios dentro del propio cuaderno.</p>
+</div></header>
+
+<section><div class="wrap">
+  <h2>El método, en breve</h2>
+  <ol class="steps">
+    <li>Antes de mirar ninguna entrega, ejecuto de principio a fin la <strong>solución de referencia del profesor</strong>. Sólo así sé qué significa «correcto» para esa actividad.</li>
+    <li>Reviso cada entrega <strong>criterio por criterio</strong> y marco cada uno con semáforo: verde si está bien, amarillo si es un detalle a pulir, rojo sólo ante un error de fondo.</li>
+    <li>Devuelvo el <strong>cuaderno comentado por dentro</strong>: cada nota va ligada a su criterio.</li>
+    <li>Califico el <strong>método, no la herramienta</strong> (si la solución es válida, el proveedor da igual) y verifico que el modelo aprenda de verdad, sin sobre ni subentrenamiento.</li>
+  </ol>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Rúbrica con semáforo</h2>
+  <p class="note" style="margin-bottom:1rem">Actividad de ejemplo: RAG + QLoRA (20 puntos). Estados ilustrativos.</p>
+  <table class="tbl">
+    <thead><tr><th>Criterio</th><th>Puntos</th><th>Estado</th></tr></thead>
+    <tbody>
+      <tr><td>Pipeline RAG funciona (índice FAISS, recuperación relevante)</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+      <tr><td>Configuración QLoRA correcta (cuantización 4-bit, LoRA, el modelo carga)</td><td>5 / 5</td><td><span class="dot ok"></span> Correcto</td></tr>
+      <tr><td>El entrenamiento corre (la pérdida baja, sin crashes)</td><td>4 / 4</td><td><span class="dot ok"></span> Correcto</td></tr>
+      <tr><td>Comparación de inferencia antes/después del fine-tuning</td><td>3 / 4</td><td><span class="dot warn"></span> Observación</td></tr>
+      <tr><td>Calidad de código y comentarios</td><td>2 / 2</td><td><span class="dot ok"></span> Correcto</td></tr>
+      <tr><td><strong>Total</strong></td><td><strong>19 / 20</strong></td><td><strong>Canvas: 19 / 20</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="legend">
+    <span><span class="dot ok"></span> Verde: correcto</span>
+    <span><span class="dot warn"></span> Amarillo: observación</span>
+    <span><span class="dot bad"></span> Rojo: a corregir</span>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <h2>Comentarios dentro del cuaderno</h2>
+  <p class="note" style="margin-bottom:.4rem">Así se ven las notas que devuelvo, junto a la celda correspondiente (código de ejemplo).</p>
+
+  <div class="cell">
+    <pre class="cell__code">index = faiss.IndexFlatL2(emb.shape[1])
+index.add(emb)
+D, I = index.search(q_emb, k=3)</pre>
+    <div class="fb ok"><span class="fb__tag">Correcto · Pipeline RAG</span><p>El índice FAISS se construye bien y la recuperación devuelve documentos relevantes. Buen uso de top-k.</p></div>
+  </div>
+
+  <div class="cell">
+    <pre class="cell__code">model = get_peft_model(base, LoraConfig(r=16, lora_alpha=32,
+        target_modules=["q_proj","v_proj"]))
+trainer.train()   # 3 épocas</pre>
+    <div class="fb ok"><span class="fb__tag">Correcto · QLoRA + entrenamiento</span><p>Cuantización en 4 bits y configuración LoRA correctas; el modelo carga y la pérdida baja en las 3 épocas. Método válido, sin importar el proveedor del modelo base.</p></div>
+  </div>
+
+  <div class="cell">
+    <pre class="cell__code">print(generar(pregunta))   # solo el modelo afinado</pre>
+    <div class="fb warn"><span class="fb__tag">Observación · Comparación antes/después</span><p>Muestras la salida del modelo afinado, pero falta ponerla lado a lado con la del modelo base para evidenciar la mejora. Es el punto de aprendizaje de la actividad: agrega la comparación y coméntala. (Resta 1 punto, no es grave.)</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Ejemplo anonimizado, sin nombres ni matrículas. Plan de Acción Tutorial · PLN (MNA). · <a href="index.html">Volver al plan</a></div></footer>
+</body>
+</html>

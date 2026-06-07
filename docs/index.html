@@ -161,10 +161,12 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 .scrolly{position:relative}
 /* narrow glyph column on the left so the symbol feels subtle, "at the back" */
 .scrolly__grid{display:grid;grid-template-columns:180px 1fr;gap:calc(var(--gap)*2);align-items:start}
-.scrolly__sticky{position:sticky;top:calc(58px + var(--gap));align-self:start}
-.scrolly__steps{display:flex;flex-direction:column;gap:42vh;padding:8vh 0}
-.step{opacity:.32;transition:opacity .4s ease}
-.step.is-active{opacity:1}
+.scrolly__sticky{align-self:start}
+.scrolly__steps{position:relative}
+.step{display:none}
+.step.is-active{display:block;animation:stepfade .35s ease}
+@keyframes stepfade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.step.is-active{animation:none}}
 .step h3{font-size:var(--fs-h3);margin-bottom:.4rem}
 .step h3 .num{font-family:var(--font-mono);color:var(--accent);font-size:1rem;display:block;margin-bottom:.3rem;font-weight:500}
 .step p{font-size:1.1rem}
@@ -183,8 +185,13 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 /* timeline 1->5 */
 .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:var(--border-w) solid var(--ink);border-radius:var(--radius);
   background:var(--paper-raised);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);overflow:hidden;margin-bottom:calc(var(--gap)*1.4)}
-.tl__item{padding:.9rem 1rem;border-right:var(--border-w) solid var(--ink)}
+.tl__item{padding:.9rem 1rem;border-right:var(--border-w) solid var(--ink);cursor:pointer;transition:background var(--t-fast)}
 .tl__item:last-child{border-right:0}
+.tl__item:hover{background:var(--paper-raised)}
+.tl__item.is-active{background:var(--ink)}
+.tl__item.is-active .tl__n{color:var(--paper)}
+.tl__item.is-active .tl__t{color:var(--paper)}
+.tl__item:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .tl__n{font-family:var(--font-mono);font-weight:700;font-size:1.7rem;line-height:1;color:var(--accent)}
 .tl__t{font-family:var(--font-mono);font-size:var(--fs-caption);color:var(--ink-soft);margin-top:.35rem;line-height:1.35;display:block}
 @media (max-width:820px){.timeline{grid-template-columns:1fr 1fr}.tl__item{border-right:0;border-bottom:1px solid var(--ink)}}
@@ -450,11 +457,11 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 <section class="scrolly" id="plan" aria-label="El plan, paso a paso"><div class="wrap">
   <p class="eyebrow reveal">Tabla 1</p>
   <h2 class="reveal">El plan, paso a paso</h2>
-  <p class="section-note reveal">Cinco pasos para construir el PAT. Al desplazarte, el símbolo cambia con cada paso.</p>
+  <p class="section-note reveal">Cinco pasos para construir el PAT. Toca un paso para verlo.</p>
 
-  <!-- numbered timeline 1->5 -->
-  <ol class="timeline reveal" aria-label="Línea de tiempo de los cinco pasos">
-    <li class="tl__item"><span class="tl__n">1</span><span class="tl__t">Sensibilización</span></li>
+  <!-- clickable step tabs 1->5 -->
+  <ol class="timeline reveal" id="stepTabs" aria-label="Pasos del plan (toca para cambiar)">
+    <li class="tl__item is-active"><span class="tl__n">1</span><span class="tl__t">Sensibilización</span></li>
     <li class="tl__item"><span class="tl__n">2</span><span class="tl__t">Análisis de necesidades</span></li>
     <li class="tl__item"><span class="tl__n">3</span><span class="tl__t">Planificación</span></li>
     <li class="tl__item"><span class="tl__n">4</span><span class="tl__t">Desarrollo</span></li>
@@ -542,6 +549,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 <section class="bw" aria-label="Puente: el acceso sin acompañamiento no es oportunidad"><div class="wrap wrap--narrow" style="text-align:center;margin:0 auto">
   <p class="eyebrow reveal">Por qué medimos el plan</p>
   <blockquote class="bw__quote reveal" style="margin:0 auto">El acceso sin acompañamiento no es <span class="hot">oportunidad</span>.</blockquote>
+  <p class="reveal d2" style="margin:1rem auto 0;max-width:60ch"><strong>Acceso</strong> aquí significa entrar al programa: inscribirse y poder cursar. Por sí solo no garantiza aprender ni permanecer; eso lo aporta el acompañamiento.</p>
   <p class="reveal d2" style="margin:1.2rem auto 0;max-width:60ch">Vincent Tinto es un investigador de la educación superior. Su modelo de integración estudiantil (1975; 2017) muestra que la permanencia depende de la integración académica y social del estudiante, no solo de haber ingresado. Por eso un Plan de Acción Tutorial conviene volverlo medible: con OKR fijamos un objetivo claro y resultados clave que muestran si el acompañamiento está funcionando.</p>
   <p class="bw__attr reveal d2">Vincent Tinto · investigador en educación superior</p>
 </div></section>
@@ -650,7 +658,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
       <p style="margin-top:0">Revisar bien una entrega técnica no es ponerle un número: es entender qué se hizo y por qué. Antes de mirar el trabajo de cualquier estudiante, ejecuto de principio a fin la <strong>solución de referencia del profesor</strong>; sólo así sé qué significa «correcto» para esa actividad.</p>
       <p>Después reviso cada entrega contra una <strong>rúbrica, criterio por criterio</strong>, con un semáforo: verde si está bien, amarillo si es un detalle a pulir (una mejora para la próxima, no un castigo) y rojo sólo ante un error de fondo. Dos principios me distinguen: <strong>califico el método, no la herramienta</strong> (si la solución es válida, el proveedor da igual), y verifico que el modelo aprenda de verdad, sin sobre ni subentrenamiento. Devuelvo el cuaderno comentado por dentro, con cada nota ligada a su criterio: <strong>retroalimentación que enseña, no sólo que evalúa</strong>.</p>
       <div class="why-row">
-        <button class="why-btn" type="button" data-modal="revision"><span class="q">?</span> ¿Cómo se ve una revisión?</button>
+        <a class="why-btn" href="revisiones.html" target="_blank" rel="noopener"><span class="q">?</span> Ver un ejemplo de revisión</a>
       </div>
     </div>
     <div class="reveal d2">
@@ -953,32 +961,30 @@ document.getElementById('roster').innerHTML=ROSTER.map(function(r){
   document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
 })();
 
-/* ---------- scrollytelling: el plan, paso a paso (5 glyphs) ---------- */
+/* ---------- el plan, paso a paso: tabs (toca para cambiar) ---------- */
 (function(){
+  var tabs=Array.prototype.slice.call(document.querySelectorAll('#stepTabs .tl__item'));
   var steps=Array.prototype.slice.call(document.querySelectorAll('#steps .step'));
-  if(!steps.length) return;
-  var glyphs=[
-    document.getElementById('glyph0'),document.getElementById('glyph1'),
-    document.getElementById('glyph2'),document.getElementById('glyph3'),
-    document.getElementById('glyph4')
-  ];
+  if(!tabs.length || !steps.length) return;
+  var glyphs=[0,1,2,3,4].map(function(i){return document.getElementById('glyph'+i);});
   var cap=document.getElementById('glyphCap');
-  var CAPS=['Paso 1','Paso 2','Paso 3','Paso 4','Paso 5'];
-  function activate(view){
-    steps.forEach(function(s,k){ s.classList.toggle('is-active',k===view); });
-    glyphs.forEach(function(g,k){ if(g) g.classList.toggle('is-on',k===view); });
-    if(cap) cap.textContent=CAPS[view]||CAPS[0];
+  function activate(i){
+    tabs.forEach(function(t,k){ t.classList.toggle('is-active',k===i); t.setAttribute('aria-selected',k===i?'true':'false'); });
+    steps.forEach(function(s,k){ s.classList.toggle('is-active',k===i); });
+    glyphs.forEach(function(g,k){ if(g) g.classList.toggle('is-on',k===i); });
+    if(cap) cap.textContent='Paso '+(i+1);
   }
-  if(REDUCED || !('IntersectionObserver' in window)){
-    activate(0);
-    return;
-  }
-  var io=new IntersectionObserver(function(entries){
-    entries.forEach(function(en){
-      if(en.isIntersecting){ activate(steps.indexOf(en.target)); }
+  document.getElementById('stepTabs').setAttribute('role','tablist');
+  tabs.forEach(function(t,i){
+    t.setAttribute('role','tab'); t.setAttribute('tabindex','0');
+    t.addEventListener('click',function(){ activate(i); });
+    t.addEventListener('keydown',function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); activate(i); }
+      else if(e.key==='ArrowRight'){ var n=(i+1)%tabs.length; activate(n); tabs[n].focus(); }
+      else if(e.key==='ArrowLeft'){ var p=(i-1+tabs.length)%tabs.length; activate(p); tabs[p].focus(); }
     });
-  },{threshold:.55});
-  steps.forEach(function(s){ io.observe(s); });
+  });
+  activate(0);
 })();
 </script>
 </body>

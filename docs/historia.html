@@ -26,6 +26,8 @@
   --border-w:2px; --radius:4px; --shadow-offset:6px; --gap:24px; --maxw:1120px;
   --measure:64ch; --grain-opacity:.04; --t-fast:80ms; --t-rev:600ms;
   --duo:#15130E;
+  /* voces modernas: 4 acentos sobrios que combinan con la paleta */
+  --v-bermellon:#C4351C; --v-tinta:#1E3A8A; --v-verde:#2F6B4F; --v-ocre:#B07A1E;
   /* pixel system-ui chrome */
   --win-bar:#15130E; --win-bar-text:#F4F0E6; --win-body:#FBF8F0;
 }
@@ -33,6 +35,7 @@
   --paper:#161410; --paper-raised:#1E1B15; --ink:#F4F0E6; --ink-soft:#D8D2C2;
   --muted:#8A8576; --accent:#E8573B; --accent-2:#7FA0E8; --rule:#F4F0E6; --shadow:#000;
   --ok:#43C97A; --warn:#F4C13B; --bad:#E8573B; --grain-opacity:.06; --duo:#000;
+  --v-bermellon:#E8573B; --v-tinta:#7FA0E8; --v-verde:#5FB089; --v-ocre:#E0B24E;
   --win-bar:#E8573B; --win-bar-text:#161410; --win-body:#1E1B15;
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -154,7 +157,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   transition:transform var(--t-fast),box-shadow var(--t-fast)}
 .thinker:hover{transform:translate(-2px,-2px);box-shadow:calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--shadow)}
 .thinker__media{position:relative;aspect-ratio:1/1;border-bottom:var(--border-w) solid var(--ink);background:var(--ink);overflow:hidden}
-.thinker__media .art__img{height:100%;mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.12) brightness(1.03)}
+.thinker__media .art__img{height:100%;object-fit:cover;object-position:center top;mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.12) brightness(1.03)}
 [data-theme="dark"] .thinker__media .art__img{mix-blend-mode:luminosity;filter:grayscale(1) contrast(1.05) brightness(.95)}
 .thinker__num{position:absolute;top:8px;left:8px;font-family:var(--font-pixel);font-size:.6rem;color:var(--win-bar-text);
   background:var(--ink);border:2px solid var(--ink);padding:4px 5px;z-index:2}
@@ -185,15 +188,28 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   line-height:1.25;max-width:24ch;letter-spacing:-.01em}
 .bw__quote .hot{color:var(--accent)}
 
-/* ---------- modern voices ---------- */
+/* ---------- modern voices (esquema de tarjetas con acento de color) ---------- */
 .voices{display:grid;grid-template-columns:repeat(2,1fr);gap:var(--gap)}
-.voice{background:var(--paper-raised);border:var(--border-w) solid var(--ink);border-radius:var(--radius);
-  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);padding:1.2rem 1.3rem;display:flex;gap:1.1rem;align-items:flex-start}
-.voice__av{flex:0 0 auto;width:74px;height:74px;border:var(--border-w) solid var(--ink);border-radius:var(--radius);overflow:hidden;background:var(--paper)}
-.voice__av .pixavatar{width:100%;height:100%}
-.voice h4{margin:0 0 .15rem;font-size:1.18rem}
-.voice .vrole{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--ink-soft);font-size:.98rem;display:block;margin-bottom:.5rem}
+.voice{--vc:var(--accent);position:relative;background:var(--paper-raised);
+  border:var(--border-w) solid var(--ink);border-radius:var(--radius);
+  box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--shadow);
+  padding:1.1rem 1.3rem 1.2rem;display:flex;gap:1rem;align-items:flex-start;overflow:hidden;
+  transition:transform var(--t-fast),box-shadow var(--t-fast)}
+.voice::before{content:"";position:absolute;left:0;top:0;bottom:0;width:8px;background:var(--vc)}
+.voice:hover{transform:translate(-2px,-2px);box-shadow:calc(var(--shadow-offset) + 2px) calc(var(--shadow-offset) + 2px) 0 var(--shadow)}
+.voice__badge{flex:0 0 auto;width:58px;height:58px;margin-left:.2rem;border:var(--border-w) solid var(--ink);
+  border-radius:var(--radius);background:var(--vc);display:flex;align-items:center;justify-content:center;
+  color:var(--paper-raised)}
+.voice__badge svg{width:34px;height:34px;display:block}
+.voice__main{flex:1;min-width:0}
+.voice h4{margin:0 0 .12rem;font-size:1.18rem}
+.voice .vrole{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--ink-soft);font-size:.98rem;display:block;margin-bottom:.55rem}
+.voice .vtag{display:inline-block;font-family:var(--font-mono);font-size:var(--fs-eyebrow);font-weight:500;
+  letter-spacing:.02em;text-transform:uppercase;color:var(--vc);border:var(--border-w) solid var(--vc);
+  border-radius:999px;padding:.08rem .55rem;margin-bottom:.6rem}
 .voice p{margin:0;font-size:1rem;line-height:1.5;max-width:none}
+.voice .vaporte{font-family:var(--font-display);font-weight:600;font-style:normal;color:var(--ink);
+  border-left:4px solid var(--vc);padding-left:.7rem;margin:.1rem 0 .65rem;font-size:1.04rem;line-height:1.3}
 .voice .vyears{font-family:var(--font-mono);font-size:var(--fs-eyebrow);color:var(--muted)}
 
 /* ---------- key concepts (7 características) ---------- */
@@ -434,7 +450,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
       <div class="art__frame">
         <img class="art__img" style="aspect-ratio:3/2"
           alt="San Jerónimo en su estudio, grabado de Alberto Durero (1514): un sabio trabajando en paz en su gabinete, en blanco y negro"
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Saint_Jerome._Engraving_by_A._D%C3%BCrer%2C_1514._Wellcome_V0032309.jpg/960px-Saint_Jerome._Engraving_by_A._D%C3%BCrer%2C_1514._Wellcome_V0032309.jpg"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Albrecht_D%C3%BCrer%2C_Saint_Jerome_in_His_Study%2C_1514%2C_NGA_6642.jpg/960px-Albrecht_D%C3%BCrer%2C_Saint_Jerome_in_His_Study%2C_1514%2C_NGA_6642.jpg"
           loading="lazy" onerror="markBroken(this)">
         <div class="avatar-fallback" style="aspect-ratio:3/2;align-items:center;justify-content:center"></div>
       </div>
@@ -616,48 +632,74 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 <section id="voces"><div class="wrap">
   <p class="eyebrow reveal">Quienes lo sostienen hoy</p>
   <h2 class="reveal">Voces modernas del acompañamiento</h2>
-  <p class="section-note reveal">Cuatro autores contemporáneos dan forma a la acción tutorial tal como se entiende ahora. Para quienes viven o fallecieron hace pocas décadas usamos un avatar pixel del sistema, no una foto con derechos.</p>
+  <p class="section-note reveal">Cuatro autores contemporáneos dan forma a la acción tutorial tal como se entiende ahora. Sin fotografías con derechos: cada voz lleva su propio color y su aporte en una línea.</p>
 
   <div class="voices reveal">
 
-    <article class="voice">
-      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="bisquerra" width="12" height="12"></canvas></div>
-      <div>
+    <article class="voice" style="--vc:var(--v-bermellon)">
+      <div class="voice__badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 14c1.5-1.5 2-3.5 2-5a8 8 0 0 0-16 0c0 1.5.5 3.5 2 5"/>
+          <path d="M12 17c2.2 0 4-1.6 4-3.6 0-2-1.8-3.4-4-3.4s-4 1.4-4 3.4c0 2 1.8 3.6 4 3.6Z"/>
+        </svg>
+      </div>
+      <div class="voice__main">
         <h4>Rafael Bisquerra <span class="vyears">(1949– )</span></h4>
         <span class="vrole">El que unió orientación, tutoría y emoción</span>
+        <span class="vtag">Su aporte</span>
+        <p class="vaporte">Orientación psicopedagógica y educación emocional.</p>
         <p>Define la <strong>orientación psicopedagógica</strong> como un proceso de ayuda continuo a todas las personas, con carácter preventivo y de desarrollo. Su trabajo sobre <strong>educación emocional</strong> da sustento al rasgo <em>integral</em>: el estudiante también es emoción, motivación y vínculo.</p>
       </div>
     </article>
 
-    <article class="voice">
-      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="velaz" width="12" height="12"></canvas></div>
-      <div>
+    <article class="voice" style="--vc:var(--v-tinta)">
+      <div class="voice__badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 5h7a3 3 0 0 1 2 1 3 3 0 0 1 2-1h7v13h-7a3 3 0 0 0-2 1 3 3 0 0 0-2-1H3Z"/>
+          <path d="M12 6v13"/>
+        </svg>
+      </div>
+      <div class="voice__main">
         <h4>Consuelo Vélaz de Medrano</h4>
         <span class="vrole">La que sistematizó la acción tutorial escolar</span>
+        <span class="vtag">Su aporte</span>
+        <p class="vaporte">Sistematizó la acción tutorial escolar.</p>
         <p>Coautora de <em>La acción tutorial en el sistema escolar</em> (UNED), la fuente de esta historia. Describe la tutoría como función docente <strong>planificada, continua y colaborativa</strong> (no como tarea aislada del tutor), dando soporte directo a los rasgos <em>sistemático</em> y <em>colaborativo</em>.</p>
       </div>
     </article>
 
-    <article class="voice">
-      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="tinto" width="12" height="12"></canvas></div>
-      <div>
+    <article class="voice" style="--vc:var(--v-verde)">
+      <div class="voice__badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="8" cy="8" r="3"/><circle cx="16" cy="16" r="3"/>
+          <path d="M8 11v3a2 2 0 0 0 2 2h3"/>
+        </svg>
+      </div>
+      <div class="voice__main">
         <h4>Vincent Tinto <span class="vyears">(1942– )</span></h4>
         <span class="vrole">El que explicó por qué los estudiantes se van</span>
-        <p>Su <strong>modelo de integración</strong> sostiene que la permanencia depende de la integración académica y social del estudiante. De ahí la idea que ordena todo el plan: <strong>«acceso sin acompañamiento no es oportunidad».</strong> Fundamenta lo <em>preventivo</em> y lo <em>continuo</em>.</p>
+        <span class="vtag">Su aporte</span>
+        <p class="vaporte">Modelo de integración y permanencia: «el acceso sin acompañamiento no es oportunidad».</p>
+        <p>Su <strong>modelo de integración</strong> sostiene que la permanencia depende de la integración académica y social del estudiante. De ahí la idea que ordena todo el plan. Fundamenta lo <em>preventivo</em> y lo <em>continuo</em>.</p>
       </div>
     </article>
 
-    <article class="voice">
-      <div class="voice__av" aria-hidden="true"><canvas class="pixavatar" data-seed="rogers" width="12" height="12"></canvas></div>
-      <div>
+    <article class="voice" style="--vc:var(--v-ocre)">
+      <div class="voice__badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.8 5.2a5 5 0 0 0-7 0L12 7l-1.8-1.8a5 5 0 0 0-7 7L12 21l8.8-8.8a5 5 0 0 0 0-7Z"/>
+        </svg>
+      </div>
+      <div class="voice__main">
         <h4>Carl Rogers <span class="vyears">(1902–1987)</span></h4>
         <span class="vrole">El que puso la relación en el centro</span>
-        <p>Su concepto de <strong>relación de ayuda</strong> (empatía, aceptación incondicional y autenticidad) es la base actitudinal del tutor. Sin vínculo, ninguna técnica funciona. Sostiene los rasgos <em>personalizado</em> e <em>integral</em> del acompañamiento.</p>
+        <span class="vtag">Su aporte</span>
+        <p class="vaporte">Relación de ayuda: empatía, aceptación y autenticidad.</p>
+        <p>Su concepto de <strong>relación de ayuda</strong> es la base actitudinal del tutor. Sin vínculo, ninguna técnica funciona. Sostiene los rasgos <em>personalizado</em> e <em>integral</em> del acompañamiento.</p>
       </div>
     </article>
 
   </div>
-  <p class="section-note" style="margin-top:1.2rem">Los avatares pixelados se generan en el navegador: son marcadores estilizados, no retratos. Se usan a propósito para autores vivos o recientes cuyas fotografías no son de dominio público.</p>
 </div></section>
 
 <!-- ===================== CONCEPTOS CLAVE ===================== -->
@@ -719,7 +761,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 <section id="creditos"><div class="wrap wrap--narrow">
   <p class="eyebrow reveal">Procedencia</p>
   <h2 class="reveal">Créditos e imágenes</h2>
-  <p class="section-note reveal">Todo el arte de personas históricas proviene de Wikimedia Commons y es de dominio público (autores fallecidos hace más de un siglo). Para autores vivos o recientes se usan avatares pixelados generados en el navegador, no fotografías con derechos.</p>
+  <p class="section-note reveal">Todo el arte de personas históricas proviene de Wikimedia Commons y es de dominio público (autores fallecidos hace más de un siglo). Para autores vivos o recientes no se usan fotografías con derechos: se representan con tarjetas de color y un icono esquemático.</p>
 
   <p class="serif reveal" style="font-size:1.12rem;font-style:italic;color:var(--ink-soft);max-width:none">Fuentes de contenido: González-Benito, A. y Vélaz de Medrano Ureta, C. (2015). <em>La acción tutorial en el sistema escolar</em>. UNED. · Notas del curso «Temas Selectos de Educación» (UPAEP): características, principios, líneas y objetivos de la acción tutorial.</p>
 
@@ -727,7 +769,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   <ul class="credits reveal">
     <li><b>Melencolia I</b> (1514), buril. <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
     <li><b>El Rinoceronte</b> (1515), xilografía. <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
-    <li><b>San Jerónimo en su estudio</b> (1514), buril (copia Wellcome Collection). <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
+    <li><b>San Jerónimo en su estudio</b> (1514), buril (National Gallery of Art). <span class="pd">Dominio público</span> · Wikimedia Commons · 200 OK, image/jpeg.</li>
   </ul>
 
   <h3 class="reveal" style="font-size:1.2rem;margin-top:1.4rem">Retratos de teóricos (dominio público)</h3>
@@ -745,17 +787,16 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
     <li><b>Jean Piaget</b> (1896–1980) · fotografía (Ann Arbor). <span class="pd">Dominio público</span> · Wikimedia Commons.</li>
   </ul>
 
-  <h3 class="reveal" style="font-size:1.2rem;margin-top:1.4rem">Sin foto (avatar pixel del sistema)</h3>
+  <h3 class="reveal" style="font-size:1.2rem;margin-top:1.4rem">Sin foto (tarjeta de color con icono)</h3>
   <ul class="credits reveal">
-    <li><b>Rafael Bisquerra</b>, <b>Consuelo Vélaz de Medrano</b>, <b>Vincent Tinto</b> y <b>Carl Rogers</b> · autores vivos o recientes; se representan con un marcador pixelado generado por código para no usar imágenes con derechos.</li>
+    <li><b>Rafael Bisquerra</b>, <b>Consuelo Vélaz de Medrano</b>, <b>Vincent Tinto</b> y <b>Carl Rogers</b> · autores vivos o recientes; se representan con una tarjeta de acento de color e icono esquemático para no usar imágenes con derechos.</li>
   </ul>
 
   <p class="reveal" style="margin-top:1.6rem"><a href="index.html">← Volver al tablero del Plan de Acción Tutorial</a></p>
 </div></section>
 
 <footer class="foot"><div class="wrap">
-  PAT · PLN (MNA) · Historia de la acción tutorial · Estética reusada del tablero (papel crema, tinta y bermellón).<br>
-  Arte de dominio público vía Wikimedia Commons: Durero, Homero, Vives, Comenius, Rousseau, Pestalozzi, Manjón, Dewey, Montessori, Decroly, Vygotsky, Piaget.
+  PAT · PLN (MNA) · Historia de la acción tutorial.
 </div></footer>
 
 <script>

@@ -181,7 +181,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
 .bw h2,.bw h3,.bw strong,.bw p{color:var(--paper)}
 .bw .section-note{color:#cfc9ba}
 .bw .art__frame{border-color:var(--paper);box-shadow:var(--shadow-offset) var(--shadow-offset) 0 var(--accent)}
-.bw .art__img{mix-blend-mode:screen;filter:grayscale(1) contrast(1.15) brightness(1.05)}
+.bw .art__img{mix-blend-mode:normal;filter:grayscale(1) contrast(1.05);background:var(--paper-raised)}
 .bw figcaption{color:#a8a294}
 .bw figcaption b{color:var(--paper)}
 .bw__quote{font-family:var(--font-display);font-style:italic;font-weight:500;font-size:clamp(1.6rem,3.4vw,2.6rem);
@@ -448,7 +448,7 @@ section{padding:calc(var(--gap)*2.4) 0;position:relative}
   <div class="grid" style="display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--gap)*2);align-items:center">
     <figure class="art reveal" style="margin:0">
       <div class="art__frame">
-        <img class="art__img" style="aspect-ratio:3/2"
+        <img class="art__img" style="aspect-ratio:3/4;object-fit:contain"
           alt="San Jerónimo en su estudio, grabado de Alberto Durero (1514): un sabio trabajando en paz en su gabinete, en blanco y negro"
           src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Albrecht_D%C3%BCrer%2C_Saint_Jerome_in_His_Study%2C_1514%2C_NGA_6642.jpg/960px-Albrecht_D%C3%BCrer%2C_Saint_Jerome_in_His_Study%2C_1514%2C_NGA_6642.jpg"
           loading="lazy" onerror="markBroken(this)">
